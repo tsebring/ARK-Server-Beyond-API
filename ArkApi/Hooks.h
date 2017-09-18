@@ -26,6 +26,9 @@ namespace Hooks
 	DWORD64 GetAddress(const void* base, const std::string& structure, const std::string& offset);
 	DWORD64 GetAddress(LPVOID base, const std::string& structure, const std::string& offset);
 	LPVOID GetAddress(const std::string& structure, const std::string& offset);
+
+	// Get base address
+	DWORD64 GetBaseAddress();
 }
 
 #endif

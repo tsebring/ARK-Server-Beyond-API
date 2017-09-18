@@ -2270,7 +2270,7 @@ struct APrimalCharacter : public ACharacter
 	float GetRunningSpeedModifier(bool bIsForDefaultSpeed) { return NativeCall<float, bool>((DWORD64)this, "APrimalCharacter", "GetRunningSpeedModifier", bIsForDefaultSpeed); }
 	float GetMaxHealth() { return NativeCall<float>((DWORD64)this, "APrimalCharacter", "GetMaxHealth"); }
 	bool AllowFirstPerson() { return NativeCall<bool>((DWORD64)this, "APrimalCharacter", "AllowFirstPerson"); }
-	//AActor * GetAimedActor(ECollisionChannel CollisionChannel, UActorComponent ** HitComponent, float MaxDistanceOverride, float CheckRadius, int * hitBodyIndex, FHitResult * outHitResult, bool bForceUseCameraLocation, bool bForceUpdateAimedActors) { return NativeCall<AActor *, ECollisionChannel, UActorComponent **, float, float, int *, FHitResult *, bool, bool>((DWORD64)this, "APrimalCharacter", "GetAimedActor", CollisionChannel, HitComponent, MaxDistanceOverride, CheckRadius, hitBodyIndex, outHitResult, bForceUseCameraLocation, bForceUpdateAimedActors); }
+	AActor * GetAimedActor(ECollisionChannel CollisionChannel, UActorComponent ** HitComponent, float MaxDistanceOverride, float CheckRadius, int * hitBodyIndex, FHitResult * outHitResult, bool bForceUseCameraLocation, bool bForceUpdateAimedActors) { return NativeCall<AActor *, ECollisionChannel, UActorComponent **, float, float, int *, FHitResult *, bool, bool>((DWORD64)this, "APrimalCharacter", "GetAimedActor", CollisionChannel, HitComponent, MaxDistanceOverride, CheckRadius, hitBodyIndex, outHitResult, bForceUseCameraLocation, bForceUpdateAimedActors); }
 	void OnPrimalCharacterSleeped() { NativeCall<void>((DWORD64)this, "APrimalCharacter", "OnPrimalCharacterSleeped"); }
 	void OnPrimalCharacterUnsleeped() { NativeCall<void>((DWORD64)this, "APrimalCharacter", "OnPrimalCharacterUnsleeped"); }
 	//float PlayAnimEx(UAnimMontage * AnimMontage, float InPlayRate, FName StartSectionName, bool bReplicate, bool bReplicateToOwner, bool bForceTickPoseAndServerUpdateMesh, bool bForceTickPoseOnServer) { return NativeCall<float, UAnimMontage *, float, FName, bool, bool, bool, bool>((DWORD64)this, "APrimalCharacter", "PlayAnimEx", AnimMontage, InPlayRate, StartSectionName, bReplicate, bReplicateToOwner, bForceTickPoseAndServerUpdateMesh, bForceTickPoseOnServer); }
@@ -3981,8 +3981,8 @@ struct APrimalDinoCharacter : APrimalCharacter
 	void SetBabyCuddleWalkStartingLocationField(FVector newValue) { SetNativeField(this, "APrimalDinoCharacter", "BabyCuddleWalkStartingLocation", newValue); }
 	long double GetBabyNextCuddleTimeField() const { return GetNativeField<long double>(this, "APrimalDinoCharacter", "BabyNextCuddleTime"); }
 	void SetBabyNextCuddleTimeField(long double newValue) { SetNativeField(this, "APrimalDinoCharacter", "BabyNextCuddleTime", newValue); }
-	//TEnumAsByte<enum EBabyCuddleType::Type> GetBabyCuddleTypeField() const { return GetNativeField<TEnumAsByte<enum EBabyCuddleType::Type>>(this, "APrimalDinoCharacter", "BabyCuddleType"); }
-	//void SetBabyCuddleTypeField(TEnumAsByte<enum EBabyCuddleType::Type> newValue) { SetNativeField(this, "APrimalDinoCharacter", "BabyCuddleType", newValue); }
+	TEnumAsByte<enum EBabyCuddleType::Type> GetBabyCuddleTypeField() const { return GetNativeField<TEnumAsByte<enum EBabyCuddleType::Type>>(this, "APrimalDinoCharacter", "BabyCuddleType"); }
+	void SetBabyCuddleTypeField(TEnumAsByte<enum EBabyCuddleType::Type> newValue) { SetNativeField(this, "APrimalDinoCharacter", "BabyCuddleType", newValue); }
 	TSubclassOf<UPrimalItem> GetBabyCuddleFoodField() const { return GetNativeField<TSubclassOf<UPrimalItem>>(this, "APrimalDinoCharacter", "BabyCuddleFood"); }
 	void SetBabyCuddleFoodField(TSubclassOf<UPrimalItem> newValue) { SetNativeField(this, "APrimalDinoCharacter", "BabyCuddleFood", newValue); }
 	TArray<TSubclassOf<UPrimalItem>> GetMyBabyCuddleFoodTypesField() const { return GetNativeField<TArray<TSubclassOf<UPrimalItem>>>(this, "APrimalDinoCharacter", "MyBabyCuddleFoodTypes"); }
@@ -4213,7 +4213,8 @@ struct APrimalDinoCharacter : APrimalCharacter
 	void ServerRequestToggleFlight_Implementation() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "ServerRequestToggleFlight_Implementation"); }
 	void CalcCapsuleHalfHeight() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "CalcCapsuleHalfHeight"); }
 	void ClientStartLanding_Implementation() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "ClientStartLanding_Implementation"); }
-	void StartLanding() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "StartLanding"); }
+	//void StartLanding() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "StartLanding"); }
+	void StartLanding(FVector *OverrideLandingLocation) { NativeCall<void, FVector *>((DWORD64)this, "APrimalDinoCharacter", "StartLanding", OverrideLandingLocation); }
 	void ServerInterruptLanding_Implementation() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "ServerInterruptLanding_Implementation"); }
 	void InterruptLanding() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "InterruptLanding"); }
 	void ClientInterruptLanding_Implementation() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "ClientInterruptLanding_Implementation"); }
@@ -4401,7 +4402,9 @@ struct APrimalDinoCharacter : APrimalCharacter
 	void RidingTick() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "RidingTick"); }
 	void ServerClearRider() { NativeCall<void>((DWORD64)this, "APrimalDinoCharacter", "ServerClearRider"); }
 	void ServerRequestAttack(int attackIndex) { NativeCall<void, int>((DWORD64)this, "APrimalDinoCharacter", "ServerRequestAttack", attackIndex); }
-	void UpdateBabyCuddling(long double NewBabyNextCuddleTime, char NewBabyCuddleType, UClass* NewBabyCuddleFood) { NativeCall<void, long double, char, UClass*>((DWORD64)this, "APrimalDinoCharacter", "UpdateBabyCuddling", NewBabyNextCuddleTime, NewBabyCuddleType, NewBabyCuddleFood); }
+	//void UpdateBabyCuddling(long double NewBabyNextCuddleTime, char NewBabyCuddleType, UClass* NewBabyCuddleFood) { NativeCall<void, long double, char, UClass*>((DWORD64)this, "APrimalDinoCharacter", "UpdateBabyCuddling", NewBabyNextCuddleTime, NewBabyCuddleType, NewBabyCuddleFood); }
+	void UpdateBabyCuddling(long double NewBabyNextCuddleTime, char NewBabyCuddleType, TSubclassOf<UPrimalItem> NewBabyCuddleFood) { NativeCall<void, long double, char, TSubclassOf<UPrimalItem>>((DWORD64)this, "APrimalDinoCharacter", "UpdateBabyCuddling", NewBabyNextCuddleTime, NewBabyCuddleType, NewBabyCuddleFood); }
+	//void __fastcall APrimalDinoCharacter::UpdateBabyCuddling(APrimalDinoCharacter *this, long double NewBabyNextCuddleTime, char NewBabyCuddleType, TSubclassOf<UPrimalItem> NewBabyCuddleFood)
 	void UpdateImprintingDetails(FString* NewImprinterName, unsigned __int64 NewImprinterPlayerDataID) { NativeCall<void, FString *, unsigned __int64>((DWORD64)this, "APrimalDinoCharacter", "UpdateImprintingDetails", NewImprinterName, NewImprinterPlayerDataID); }
 	void UpdateImprintingQuality(float NewImprintingQuality) { NativeCall<void, float>((DWORD64)this, "APrimalDinoCharacter", "UpdateImprintingQuality", NewImprintingQuality); }
 	void UpdateTribeGroupRanks(char NewTribeGroupPetOrderingRank, char NewTribeGroupPetRidingRank) { NativeCall<void, char, char>((DWORD64)this, "APrimalDinoCharacter", "UpdateTribeGroupRanks", NewTribeGroupPetOrderingRank, NewTribeGroupPetRidingRank); }
@@ -4729,4 +4732,393 @@ struct AShooterWeapon : AActor
 	void ServerSetColorizeRegion(int theRegion, bool bValToUse) { NativeCall<void, int, bool>((DWORD64)this, "AShooterWeapon", "ServerSetColorizeRegion", theRegion, bValToUse); }
 	void ServerStartFire() { NativeCall<void>((DWORD64)this, "AShooterWeapon", "ServerStartFire"); }
 	void StartUnequip() { NativeCall<void>((DWORD64)this, "AShooterWeapon", "StartUnequip"); }
+};
+
+struct AAIController : AController
+{
+	// Functions
+
+	//signed __int64 __fastcall AAIController::MoveToLocation(AAIController *this, FVector *Dest, float AcceptanceRadius, bool bStopOnOverlap, bool bUsePathfinding, bool bProjectDestinationToNavigation, bool bCanStrafe, TSubclassOf<UNavigationQueryFilter> FilterClass, bool WasPlayerCommand)
+	signed __int64 MoveToLocation(FVector *Dest, float AcceptanceRadius, bool bStopOnOverlap, bool bUsePathfinding, bool bProjectDestinationToNavigation, bool bCanStrafe, TSubclassOf<UNavigationQueryFilter> FilterClass, bool WasPlayerCommand) { return NativeCall<signed __int64, FVector *, float, bool, bool, bool, bool, TSubclassOf<UNavigationQueryFilter>, bool>((DWORD64)this, "AAIController", "MoveToLocation", Dest, AcceptanceRadius, bStopOnOverlap, bUsePathfinding, bProjectDestinationToNavigation, bCanStrafe, FilterClass, WasPlayerCommand); }
+	
+	//void __fastcall AAIController::Tick(AAIController *this, float DeltaTime)
+	void Tick(float DeltaTime) { NativeCall<void, float>((DWORD64)this, "AAIController", "Tick", DeltaTime); }
+
+	/*"AAIController": 16506416,
+	"AbortMove" : 16520192,
+	"ActorsPerceptionUpdated" : 1614608,
+	"BrainComponent" : 1224,
+	"ClearFocus" : 16509824,
+	"CurrentAcceptanceRadius" : 1396,
+	"CurrentDestination" : 1304,
+	"CurrentGoal" : 1296,
+	"CurrentPath" : 1360,
+	"DisplayDebug" : 16507232,
+	"FindPath" : 16527168,
+	"FocusInformation" : 1200,
+	"FollowPathSegment" : 16523168,
+	"GetAcceptanceHeightOffset" : 1715712,
+	"GetAcceptanceRadiusOffset" : 1715712,
+	"GetDebugIcon" : 1625872,
+	"GetFocalPoint" : 16508528,
+	"GetFocusActor" : 16509312,
+	"GetMoveFocus" : 16524016,
+	"GetPerceptionComponent" : 2747232,
+	"GetPlayerViewPoint" : 16508032,
+	"GetPrivateStaticClass" : 2571200,
+	"GetUObjectInterfaceAIPerceptionListenerInterface" : 2747248,
+	"HasReached" : 16514992,
+	"HasReachedCurrentTarget" : 16519376,
+	"HasReachedDestination" : 16517280,
+	"HasReachedInternal" : 16519760,
+	"LineOfSightTo" : 16510032,
+	"MoveSegmentDirection" : 1376,
+	"MoveSegmentEndIndex" : 1392,
+	"MoveSegmentStartIndex" : 1388,
+	"MoveToActor" : 16513168,
+	"MoveToLocation" : 16513984,
+	"MoveTowardTargetOffset" : 1240,
+	"MovementGoalHeight" : 1268,
+	"OnMoveCompleted" : 16528560,
+	"OnPathFinished" : 16523840,
+	"PerceptionComponent" : 1232,
+	"Possess" : 16512944,
+	"PostInitializeComponents" : 16506832,
+	"PostRegisterAllComponents" : 16506944,
+	"ReachedDestinationThresholdOffset" : 1264,
+	"ReceiveMoveCompleted" : 1272,
+	"RequestMove" : 16526672,
+	"RequestMoveID" : 1292,
+	"RequestMovement" : 16525616,
+	"Reset" : 16507040,
+	"ResetMovement" : 16523584,
+	"RunBehaviorTree" : 16528608,
+	"SetFocalPoint" : 16508336,
+	"SetFocus" : 16509696,
+	"SetMoveSegment" : 16524688,
+	"StaticClass" : 2571200,
+	"StaticRegisterNativesAAIController" : 16891328,
+	"Status" : 1288,
+	"StopMovement" : 16526976,
+	"TargetFocalPositionOffset" : 1252,
+	"Tick" : 16506736,
+	"UnPossess" : 16513104,
+	"UpdateControlRotation" : 16511856,
+	"UpdateMoveFocus" : 16524592,
+	"UpdatePathSegment" : 16520560,
+	"UseBlackboard" : 16528960,
+	"~AAIController" : 2647072*/
+};
+
+struct APrimalDinoAIController : AAIController
+{
+	//char __fastcall APrimalDinoAIController::CanLand(APrimalDinoAIController *this
+	bool CanLand() { return NativeCall<bool>((DWORD64)this, "APrimalDinoAIController", "CanLand") != 0; }
+
+	//void __fastcall APrimalDinoAIController::ForceLand(APrimalDinoAIController *this, __int64 a2, int a3)
+	void ForceLand(int64_t a2, int a3) { NativeCall<void, int64_t, int>((DWORD64)this, "APrimalDinoAIController", "ForceLand", a2, a3); }
+
+	//void __fastcall APrimalDinoCharacter::StartLanding(APrimalDinoCharacter *this, FVector *OverrideLandingLocation)
+	//void StartLanding(FVector *OverrideLandingLocation) { NativeCall<void, FVector *>((DWORD64)this, "APrimalDinoAIController", "StartLanding", OverrideLandingLocation); }
+};
+
+struct ABrush : AActor {
+
+};
+
+struct AVolume : ABrush {
+
+};
+
+struct ANPCZoneVolume : AVolume {
+	// Fields
+	/*unsigned __int32 bOnlyCountWaterDinos : 1;
+	unsigned __int32 bOnlyCountLandDinos : 1;
+	unsigned __int32 bCountTamedDinos : 1;
+	TArray<TSubclassOf<APrimalDinoCharacter>, FDefaultAllocator> OnlyCountDinoClasses;
+	TArray<TSubclassOf<APrimalDinoCharacter>, FDefaultAllocator> IgnoreDinoClasses;
+	TArray<FHibernationCountInfo, FDefaultAllocator> HibernatedEntities;
+	float HibernatedCountWeights;
+	TArray<APrimalDinoCharacter *, FDefaultAllocator> OverlappedDinos;
+	float CountWeights;*/
+};
+
+struct ANPCZoneSpawnVolume : AVolume
+{
+};
+
+struct FLinkedZoneSpawnVolumeEntry
+{
+	ANPCZoneSpawnVolume * GetLinkedLinkedZoneSpawnVolumeField() const { return GetNativeField<ANPCZoneSpawnVolume *>(this, "FLinkedZoneSpawnVolumeEntry", "LinkedZoneSpawnVolume"); }
+	// Fields
+	/*ANPCZoneSpawnVolume *LinkedZoneSpawnVolume;
+	TArray<AActor *, FDefaultAllocator> ZoneSpawnVolumeFloors;
+	TArray<FName, FDefaultAllocator> ZoneSpawnVolumeFloorTags;
+	float EntryWeight;*/
+};
+
+struct FClassRemappingWeight
+{
+	TSubclassOf<UObject> FromClass;
+	TArray<TSubclassOf<UObject>> ToClasses;
+	TArray<float> Weights;
+};
+
+struct FClassNameReplacement
+{
+	FString FromClassName;
+	FString ToClassName;
+};
+
+
+struct FNPCDifficultyLevelRange
+{
+	TArray<float> EnemyLevelsMin;
+	TArray<float> EnemyLevelsMax;
+	TArray<float> GameDifficulties;
+};
+
+
+
+struct FNPCSpawnEntry
+{
+
+	// Fields
+	//FString GetAnEntryNameField() const { return GetNativeField<FString>(this, "FNPCSpawnEntry", "AnEntryName"); }
+
+	FString AnEntryName;
+	TArray<TSubclassOf<APrimalDinoCharacter>> NPCsToSpawn;
+	TArray<FString> NPCsToSpawnStrings;
+	TArray<FClassRemappingWeight> NPCRandomSpawnClassWeights;
+	TArray<FVector> NPCsSpawnOffsets;
+	TArray<float> NPCsToSpawnPercentageChance;
+	TArray<float> NPCMinLevelOffset;
+	TArray<float> NPCMaxLevelOffset;
+	TArray<float> NPCMinLevelMultiplier;
+	TArray<float> NPCMaxLevelMultiplier;
+	unsigned __int32 bAddLevelOffsetBeforeMultiplier : 1;
+	TArray<unsigned char> NPCOverrideLevel;
+	FVector ExtentCheck;
+	FVector GroupSpawnOffset;
+	float EntryWeight;
+	float ManualSpawnPointSpreadRadius;
+	float WaterOnlySpawnMinimumWaterHeight;
+	float MaximumWaterHeight;
+	TArray<FNPCDifficultyLevelRange> NPCDifficultyLevelRanges;
+	float LevelDifficultyTestOverride;
+	float SpawnMinDistanceFromStructuresMultiplier;
+	float SpawnMinDistanceFromPlayersMultiplier;
+	float SpawnMinDistanceFromTamedDinosMultiplier;
+	float RandGroupSpawnOffsetZMin;
+	float RandGroupSpawnOffsetZMax;
+};
+
+struct FNPCSpawnLimit
+{
+	TSubclassOf<APrimalDinoCharacter> NPCClass;
+	FString NPCClassString;
+	float MaxPercentageOfDesiredNumToAllow;
+	int CurrentNumberOfNPCTouching;
+};
+
+struct __declspec(align(8)) UNPCSpawnEntriesContainer : UObject
+{
+	TArray<FNPCSpawnEntry> NPCSpawnEntries;
+	TArray<FNPCSpawnLimit> NPCSpawnLimits;
+	float MaxDesiredNumEnemiesMultiplier;
+};
+
+struct FConfigCacheIni {
+
+};
+
+struct AInfo : AActor {
+
+};
+
+struct AWorldSettings : AInfo {
+
+};
+
+struct APrimalWorldSettings : AWorldSettings {
+	TArray<FClassRemappingWeight> GetNPCRandomSpawnClassWeightsField() const { return GetNativeField<TArray<FClassRemappingWeight>>(this, "APrimalWorldSettings", "NPCRandomSpawnClassWeights"); }
+};
+
+struct ANPCZoneManager : AInfo {
+	// Functions
+	static UClass* GetPrivateStaticClass() { return NativeCall<UClass *, __int64, UClass **, void(__cdecl *)()>(nullptr, "ANPCZoneManager", "GetPrivateStaticClass", 0, nullptr, nullptr); }
+	//UClass *__fastcall ANPCZoneManager::GetPrivateStaticClass(TClassCompiledInDefer<ANPCZoneManager> *this, __int64 a2, UClass **a3, void (__cdecl *a4)())
+	//GetPrivateStaticClassBody<UClass>(const wchar_t *PackageName, const wchar_t *Name, UClass **ReturnClass, void(__cdecl *RegisterNativeFunc)()) { return NativeCall<void, const wchar_t *, const wchar_t *, UClass **, void(__cdecl *)()>(nullptr, "Global", "GetPrivateStaticClassBody<UClass>", PackageName, Name, ReturnClass, RegisterNativeFunc); }
+
+	/*"ANPCZoneManager": 2152400,
+	"AbsoluteMaximumNumberNearbyCoreStructures" : 1284,
+	"BeginPlay" : 2153296,
+	"CheckDecreaseNPC" : 2163376,
+	"CheckIncreaseNPC" : 2163536,
+	"CloseStructureDistanceFromSpawnPoint" : 1400,
+	"DefaultZoneSpawnVolumeFloorTags" : 1152,
+	"DefaultZoneSpawnVolumeFloors" : 1136,
+	"DesiredNumberOfNPCMultiplier" : 1196,
+	"EndPlay" : 2184720,
+	"FindLinkedSpawnVolumeEntryContainingPoint" : 2171856,
+	"ForceOverrideNPCBaseLevel" : 1324,
+	"GetBestNPCToAutoKill" : 2184160,
+	"GetNumberOfClassNPCTouching" : 2162704,
+	"GetNumberOfNPCTouching" : 2162432,
+	"GetPrivateStaticClass" : 7521056,
+	"GetValidSpawnPoint" : 2172096,
+	"HardLimitWildDinosToVolume" : 1296,
+	"IsValidNPCEntry" : 2164816,
+	"KillOffOverweightNPCStasisTime" : 1208,
+	"LastDecreaseNPCTime" : 1384,
+	"LastIncreaseNPCTime" : 1376,
+	"LastManuallySpawnedTime" : 1456,
+	"LinkedZoneSpawnVolumeEntries" : 1120,
+	"LinkedZoneVolumes" : 1104,
+	"ManualSpawningNPCLerpToMaxRandomBaseLevel" : 1276,
+	"MaxNumberOfNPC" : 1192,
+	"MaxNumberSpawnZoneRandomPointChecks" : 1256,
+	"MaximumNumberNearbyCoreStructures" : 1280,
+	"MinDesiredNumberOfNPC" : 1184,
+	"MinimumManualSpawnInterval" : 1448,
+	"NPCAIRangeMultiplier" : 1236,
+	"NPCLerpToMaxRandomBaseLevel" : 1272,
+	"NPCLevelMultiplier" : 1320,
+	"NPCLimitTargetsToVolume" : 1312,
+	"NPCSpawnEntries" : 1328,
+	"NPCSpawnEntriesContainerObject" : 1168,
+	"NPCSpawnLimits" : 1344,
+	"NPCWanderRadiusMultiplier" : 1252,
+	"NonDedicatedFreezeWildDinoPhysicsIfLevelUnloaded" : 1424,
+	"NonDedicatedFreezeWildDinoPhysicsIfLevelsUnloaded" : 1432,
+	"NumNPCSpawned" : 1364,
+	"NumSpawnFailures" : 1368,
+	"Report" : 2165792,
+	"SP_MinDesiredNumberOfNPC" : 1188,
+	"SP_TheIncreaseNPCInterval" : 1224,
+	"SpawnFromEntries" : 2168384,
+	"SpawnNPC" : 2180368,
+	"SpawnNPCs" : 2164432,
+	"SpawnPointOverrides" : 1408,
+	"StaticRegisterNativesANPCZoneManager" : 7520576,
+	"StaticSpawnNPCs" : 2185072,
+	"TheDecreaseNPCInterval" : 1232,
+	"TheIncreaseNPCInterval" : 1220,
+	"TheIncreaseNPCIntervalMax" : 1228,
+	"TheMaximumWorldTimeForFullIncrease" : 1212,
+	"TheMinimumPlayerDistanceFromSpawnPoint" : 1216,
+	"TheMinimumStructureDistanceFromSpawnPoint" : 1268,
+	"TheMinimumTamedDinoDistanceFromSpawnPoint" : 1264,
+	"TheNPCFullIncreaseMaximumIterations" : 1260,
+	"TheNewNewEditorNumberOfNPCMultiplier" : 1204,
+	"TheNextIncreaseNPCInterval" : 1396,
+	"TheSpawnPointMinimumFloorNormal" : 1200,
+	"UseDesiredNumberOfNPC" : 1360,
+	"bAllowExtentTest" : 1180,
+	"bAutoKillUseGlobalStasisArray" : 1288,
+	"bEnabled" : 1176,
+	"bForceInEditor" : 1177,
+	"bForceRespawnDinos" : 1392,
+	"bForceUntameable" : 1244,
+	"bIgnoreNPCRandomClassReplacements" : 1464,
+	"bIgnoreVolumeEcompassingCheck" : 1246,
+	"bNPCDontWander" : 1240,
+	"bNPCForcePreventExitingWater" : 1305,
+	"bNPCNoKillXP" : 1242,
+	"bNPCPreventSaving" : 1243,
+	"bNPCWildIgnoreWild" : 1241,
+	"bNeverSpawnInWater" : 1178,
+	"bOnlyCheckMySublevelWater" : 1181,
+	"bOnlySpawnInWater" : 1179,
+	"bOnlyUseInDedicatedServer" : 1249,
+	"bOnlyUseInSingleplayer" : 1248,
+	"bSpawnAllNPCEntries" : 1247,
+	"bSpawnsAmphibiousDinos" : 1395,
+	"bSpawnsWaterDinos" : 1394,
+	"bTraceForSpawnAgainstWater" : 1304,
+	"bTriedFullIncrease" : 1393,
+	"bUseSpawnPointOverrideRotation" : 1306,
+	"bUsesManualSpawning" : 1245,
+	"~ANPCZoneManager" : 2152992*/
+
+	TArray<ANPCZoneVolume *> GetLinkedZoneVolumesField() const { return GetNativeField<TArray<ANPCZoneVolume *>>(this, "ANPCZoneManager", "LinkedZoneVolumes"); }
+	TArray<FLinkedZoneSpawnVolumeEntry> GetLinkedZoneSpawnVolumeEntriesField() const { return GetNativeField<TArray<FLinkedZoneSpawnVolumeEntry>>(this, "ANPCZoneManager", "LinkedZoneSpawnVolumeEntries"); }
+	TArray<FNPCSpawnEntry> GetNPCSpawnEntriesField() const { return GetNativeField<TArray<FNPCSpawnEntry>>(this, "ANPCZoneManager", "NPCSpawnEntries"); }
+	TArray<FNPCSpawnLimit> GetNPCSpawnLimitsField() const { return GetNativeField<TArray<FNPCSpawnLimit>>(this, "ANPCZoneManager", "NPCSpawnLimits"); }
+	TSubclassOf<UNPCSpawnEntriesContainer> GetNPCSpawnEntriesContainerObjectField() const { return GetNativeField<TSubclassOf<UNPCSpawnEntriesContainer>>(this, "ANPCZoneManager", "NPCSpawnEntriesContainerObject"); }
+	bool GetbIgnoreNPCRandomClassReplacementsField() const { return GetNativeField<bool>(this, "ANPCZoneManager", "bIgnoreNPCRandomClassReplacements"); }
+
+
+	// Fields
+	/*TArray<ANPCZoneVolume *, FDefaultAllocator> LinkedZoneVolumes;
+	TArray<FLinkedZoneSpawnVolumeEntry, FDefaultAllocator> LinkedZoneSpawnVolumeEntries;
+	TArray<AActor *, FDefaultAllocator> DefaultZoneSpawnVolumeFloors;
+	TArray<FName, FDefaultAllocator> DefaultZoneSpawnVolumeFloorTags;
+	TSubclassOf<UNPCSpawnEntriesContainer> NPCSpawnEntriesContainerObject;
+	bool bEnabled;
+	bool bForceInEditor;
+	bool bNeverSpawnInWater;
+	bool bOnlySpawnInWater;
+	bool bAllowExtentTest;
+	bool bOnlyCheckMySublevelWater;
+	int MinDesiredNumberOfNPC;
+	int SP_MinDesiredNumberOfNPC;
+	int MaxNumberOfNPC;
+	float DesiredNumberOfNPCMultiplier;
+	float TheSpawnPointMinimumFloorNormal;
+	float TheNewNewEditorNumberOfNPCMultiplier;
+	float KillOffOverweightNPCStasisTime;
+	float TheMaximumWorldTimeForFullIncrease;
+	float TheMinimumPlayerDistanceFromSpawnPoint;
+	float TheIncreaseNPCInterval;
+	float SP_TheIncreaseNPCInterval;
+	float TheIncreaseNPCIntervalMax;
+	float TheDecreaseNPCInterval;
+	float NPCAIRangeMultiplier;
+	bool bNPCDontWander;
+	bool bNPCWildIgnoreWild;
+	bool bNPCNoKillXP;
+	bool bNPCPreventSaving;
+	bool bForceUntameable;
+	bool bUsesManualSpawning;
+	bool bIgnoreVolumeEcompassingCheck;
+	bool bSpawnAllNPCEntries;
+	bool bOnlyUseInSingleplayer;
+	bool bOnlyUseInDedicatedServer;
+	float NPCWanderRadiusMultiplier;
+	int MaxNumberSpawnZoneRandomPointChecks;
+	int TheNPCFullIncreaseMaximumIterations;
+	float TheMinimumTamedDinoDistanceFromSpawnPoint;
+	float TheMinimumStructureDistanceFromSpawnPoint;
+	float NPCLerpToMaxRandomBaseLevel;
+	float ManualSpawningNPCLerpToMaxRandomBaseLevel;
+	int MaximumNumberNearbyCoreStructures;
+	int AbsoluteMaximumNumberNearbyCoreStructures;
+	bool bAutoKillUseGlobalStasisArray;
+	ANPCZoneVolume *HardLimitWildDinosToVolume;
+	bool bTraceForSpawnAgainstWater;
+	bool bNPCForcePreventExitingWater;
+	bool bUseSpawnPointOverrideRotation;
+	AVolume *NPCLimitTargetsToVolume;
+	float NPCLevelMultiplier;
+	int ForceOverrideNPCBaseLevel;
+	TArray<FNPCSpawnEntry, FDefaultAllocator> NPCSpawnEntries;
+	TArray<FNPCSpawnLimit, FDefaultAllocator> NPCSpawnLimits;
+	int UseDesiredNumberOfNPC;
+	int NumNPCSpawned;
+	int NumSpawnFailures;
+	long double LastIncreaseNPCTime;
+	long double LastDecreaseNPCTime;
+	bool bForceRespawnDinos;
+	bool bTriedFullIncrease;
+	bool bSpawnsWaterDinos;
+	bool bSpawnsAmphibiousDinos;
+	float TheNextIncreaseNPCInterval;
+	float CloseStructureDistanceFromSpawnPoint;
+	TArray<AActor *, FDefaultAllocator> SpawnPointOverrides;
+	FName NonDedicatedFreezeWildDinoPhysicsIfLevelUnloaded;
+	TArray<FName, FDefaultAllocator> NonDedicatedFreezeWildDinoPhysicsIfLevelsUnloaded;
+	float MinimumManualSpawnInterval;
+	long double LastManuallySpawnedTime;
+	bool bIgnoreNPCRandomClassReplacements;*/
 };

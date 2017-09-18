@@ -16,6 +16,8 @@ namespace Ark
 	// Will disable all hooks placed on this function
 	ARK_API void DisableHook(const std::string& structure, const std::string& funcName);
 
+	ARK_API DWORD64 GetBaseAddress();
+
 	ARK_API void AddChatCommand(const FString& command, const std::function<void(AShooterPlayerController*, FString*, EChatSendMode::Type)>& callback);
 	ARK_API void RemoveChatCommand(const FString& command);
 	ARK_API void AddConsoleCommand(const FString& command, const std::function<void(APlayerController*, FString*, bool)>& callback);

@@ -292,6 +292,7 @@ struct APrimalStructure : APrimalTargetableActor
 
 	// Functions
 
+	static UClass* GetPrivateStaticClass() { return NativeCall<UClass *>(nullptr, "APrimalStructure", "GetPrivateStaticClass"); }
 	int GetHitPawnCollisionGroup() { return NativeCall<int>((DWORD64)this, "APrimalStructure", "GetHitPawnCollisionGroup"); }
 	void PreInitializeComponents() { NativeCall<void>((DWORD64)this, "APrimalStructure", "PreInitializeComponents"); }
 	void BeginPlay() { NativeCall<void>((DWORD64)this, "APrimalStructure", "BeginPlay"); }

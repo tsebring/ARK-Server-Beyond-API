@@ -123,6 +123,12 @@ namespace Hooks
 		return reinterpret_cast<LPVOID>(dwModuleBase + static_cast<DWORD64>(json["structures"][structure][offset]));
 	}
 
+	// Get base address
+	DWORD64 GetBaseAddress()
+	{
+		return dwModuleBase;
+	}
+
 	// Hooks
 
 	void _cdecl Hook_UWorld_InitWorld(UWorld* world, DWORD64 IVS)

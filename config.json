@@ -68,10 +68,20 @@
 	"FAssetData",
 	"UBlueprint",
 	"UTexture2D",
-	"AGameSession",
-	"FItemStatInfo"
+	"AAIController",
+	"APrimalDinoAIController",
+	"APawn",
+	"UPrimalGameData",
+	"ANPCZoneManager",
+	"APrimalWorldSettings",
+	"FConfigCacheIni",
+	"UShooterGameInstance",
+	"FMalloc"
   ],
   "functions": [
-    "StaticLoadObject"
+    "StaticLoadObject",
+    "GetPrivateStaticClassBody<UClass>",
+    "RaycastSingle",
+    "GCreateMalloc"
   ]
 }
