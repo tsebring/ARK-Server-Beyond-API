@@ -440,6 +440,11 @@ public:
 	UClass* GetClassField() const { return GetNativeField<UClass *>(this, "UObjectBase", "Class"); }
 	FName GetNameField() const { return GetNativeField<FName>(this, "UObjectBase", "Name"); }
 	UObject* GetOuterField() const { return GetNativeField<UObject *>(this, "UObjectBase", "Outer"); }
+
+
+	// Functions
+
+	bool IsValidLowLevel() { return NativeCall<bool>((DWORD64)this, "UObjectBase", "IsValidLowLevel"); }
 };
 
 struct UObjectBaseUtility : public UObjectBase
@@ -487,6 +492,8 @@ struct UObject : UObjectBaseUtility
 	//bool CallFunctionByNameWithArguments(const wchar_t * Str, FOutputDevice * Ar, UObject * Executor, bool bForceCallWithNonExec) { return NativeCall<bool, const wchar_t *, FOutputDevice *, UObject *, bool>((DWORD64)this, "UObject", "CallFunctionByNameWithArguments", Str, Ar, Executor, bForceCallWithNonExec); }
 	UFunction* FindFunctionChecked(FName InName) { return NativeCall<UFunction *, FName>((DWORD64)this, "UObject", "FindFunctionChecked", InName); }
 	void ProcessEvent(UFunction* Function, void* Parms) { NativeCall<void, UFunction *, void *>((DWORD64)this, "UObject", "ProcessEvent", Function, Parms); }
+	void SaveConfig(unsigned __int64 Flags, const wchar_t *InFilename, void *Config) { NativeCall<void, unsigned __int64, const wchar_t*, void*>((DWORD64)this, "UObject", "SaveConfig", Flags, InFilename, Config); }
+	//void __fastcall UObject::SaveConfig(UObject *this, unsigned __int64 Flags, const wchar_t *InFilename, FConfigCacheIni *Config)
 };
 
 struct UField : UObject
@@ -628,7 +635,21 @@ struct UNumericProperty : UProperty
 struct Globals
 {
 	static UObject* StaticLoadObject(UClass* ObjectClass, UObject* InOuter, const wchar_t* InName, const wchar_t* Filename, unsigned int LoadFlags, DWORD64 Sandbox, bool bAllowObjectReconciliation) { return NativeCall<UObject*, UClass *, UObject *, const wchar_t *, const wchar_t *, unsigned int, DWORD64, bool>(nullptr, "Global", "StaticLoadObject", ObjectClass, InOuter, InName, Filename, LoadFlags, Sandbox, bAllowObjectReconciliation); }
+
+	template <typename T>
+	static void GetPrivateStaticClassBody(const wchar_t *PackageName, const wchar_t *Name, T **ReturnClass, void(__cdecl *RegisterNativeFunc)());
+
+	/*template <>
+	static void GetPrivateStaticClassBody<UClass>(const wchar_t *PackageName, const wchar_t *Name, UClass **ReturnClass, void(__cdecl *RegisterNativeFunc)()) { return NativeCall<void, const wchar_t *, const wchar_t *, UClass **, void(__cdecl *)()>(nullptr, "Global", "GetPrivateStaticClassBody<UClass>", PackageName, Name, ReturnClass, RegisterNativeFunc); }*/
+
+	//void __fastcall GetPrivateStaticClassBody<UClass>(const wchar_t *PackageName, const wchar_t *Name, UClass **ReturnClass, void(__cdecl *RegisterNativeFunc)())
+
+	//static char RaycastSingle(UWorld *World, FHitResult *OutHit, FVector *Start, FVector *End, ECollisionChannel TraceChannel, FCollisionQueryParams *Params, FCollisionResponseParams *ResponseParams, FCollisionObjectQueryParams *ObjectParams) { return NativeCall<char, UWorld *, FHitResult *, FVector *, FVector *, ECollisionChannel, FCollisionQueryParams *, FCollisionResponseParams *, FCollisionObjectQueryParams *>(nullptr, "Global", "RaycastSingle", World, OutHit, Start, End, TraceChannel, Params, ResponseParams, ObjectParams); }
+	//char RaycastSingle(UWorld *World, FHitResult *OutHit, FVector *Start, FVector *End, ECollisionChannel TraceChannel, FCollisionQueryParams *Params, FCollisionResponseParams *ResponseParams, FCollisionObjectQueryParams *ObjectParams)
 };
+
+template <>
+inline void Globals::GetPrivateStaticClassBody<UClass>(const wchar_t *PackageName, const wchar_t *Name, UClass **ReturnClass, void(__cdecl *RegisterNativeFunc)()) { return NativeCall<void, const wchar_t *, const wchar_t *, UClass **, void(__cdecl *)()>(nullptr, "Global", "GetPrivateStaticClassBody<UClass>", PackageName, Name, ReturnClass, RegisterNativeFunc); }
 
 struct FAssetData
 {
@@ -717,4 +738,65 @@ struct FAssetRegistry
 struct UTexture2D
 {
 	static UClass* StaticClass() { return NativeCall<UClass *>(nullptr, "UTexture2D", "StaticClass"); }
+};
+
+struct FNavigationFilterFlags
+{
+	uint32_t Flags;
+};
+
+struct __declspec(align(8)) UNavArea : UObject
+{
+	float DefaultCost;
+	float FixedAreaEnteringCost;
+	FColor DrawColor;
+	uint32_t unk;
+	uint16_t AreaFlags;
+};
+
+struct __declspec(align(8)) FNavigationFilterArea
+{
+	TSubclassOf<UNavArea> AreaClass;
+	float TravelCostOverride;
+	float EnteringCostOverride;
+	uint32_t bIsExcluded : 1;
+	uint32_t bOverrideTravelCost : 1;
+	uint32_t bOverrideEnteringCost : 1;
+};
+
+struct UNavigationQueryFilter : UObject
+{
+	//TArray<FNavigationFilterArea, FDefaultAllocator> Areas;
+	TArray<FNavigationFilterArea> Areas;
+	FNavigationFilterFlags IncludeFlags;
+	FNavigationFilterFlags ExcludeFlags;
+};
+
+
+struct FCollisionQueryParams
+{
+	FName TraceTag;
+	FName OwnerTag;
+	bool bTraceAsyncScene;
+	bool bTraceComplex;
+	bool bFindInitialOverlaps;
+	bool bReturnFaceIndex;
+	bool bReturnPhysicalMaterial;
+	TArray<unsigned int> IgnoreActors;
+};
+
+struct FCollisionResponseContainer
+{
+	char unk[32];
+};
+
+
+struct FCollisionResponseParams
+{
+	FCollisionResponseContainer CollisionResponse;
+};
+
+struct FCollisionObjectQueryParams
+{
+	int ObjectTypesToQuery;
 };

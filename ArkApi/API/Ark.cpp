@@ -27,6 +27,11 @@ namespace Ark
 		Hooks::DisableHook(structure, funcName);
 	}
 
+	DWORD64 GetBaseAddress()
+	{
+		return Hooks::GetBaseAddress();
+	}
+
 	void AddChatCommand(const FString& command, const std::function<void(AShooterPlayerController*, FString*, EChatSendMode::Type)>& callback)
 	{
 		Commands::AddChatCommand(command, callback);

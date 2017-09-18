@@ -533,7 +533,8 @@ struct UPrimalItem : UObject
 	TArray<FCraftingResourceRequirement> GetOverrideRepairingRequirementsField() const { return GetNativeField<TArray<FCraftingResourceRequirement>>(this, "UPrimalItem", "OverrideRepairingRequirements"); }
 	void SetOverrideRepairingRequirementsField(TArray<FCraftingResourceRequirement> newValue) { SetNativeField(this, "UPrimalItem", "OverrideRepairingRequirements", newValue); }
 	FItemStatInfo* GetItemStatInfosField() const { return GetNativeField<FItemStatInfo*>(this, "UPrimalItem", "ItemStatInfos"); }
-	unsigned __int16* GetItemStatValuesField() const { return GetNativeField<unsigned __int16*>(this, "UPrimalItem", "ItemStatValues"); }
+	unsigned __int16* GetItemStatValuesField() const { return GetNativePointerField<unsigned __int16*>(this, "UPrimalItem", "ItemStatValues"); }
+	//unsigned __int16* GetItemStatValuesField() const { return GetNativeField<unsigned __int16*>(this, "UPrimalItem", "ItemStatValues"); }
 	unsigned int GetWeaponClipAmmoField() const { return GetNativeField<unsigned int>(this, "UPrimalItem", "WeaponClipAmmo"); }
 	void SetWeaponClipAmmoField(unsigned int newValue) { SetNativeField(this, "UPrimalItem", "WeaponClipAmmo", newValue); }
 	float GetWeaponFrequencyField() const { return GetNativeField<float>(this, "UPrimalItem", "WeaponFrequency"); }
@@ -1021,4 +1022,277 @@ struct FItemStatInfo
 	// Functions
 
 	float GetItemStatModifier(unsigned __int16 ItemStatValue) { return NativeCall<float, unsigned __int16>((DWORD64)this, "FItemStatInfo", "GetItemStatModifier", ItemStatValue); }
+};
+
+struct FLevelExperienceRamp
+{
+	TArray<float> ExperiencePointsForLevel;
+};
+
+
+
+struct UPrimalGameData : UObject
+{
+	FLevelExperienceRamp* GetLevelExperienceRampsField() const { return GetNativePointerField<FLevelExperienceRamp*>(this, "UPrimalGameData", "LevelExperienceRamps"); }
+	//FLevelExperienceRamp LevelExperienceRamps[4];
+
+	/*FString ModName;
+	FString ModDescription;
+	FPrimalCharacterStatusValueDefinition StatusValueDefinitions[12];
+	FPrimalCharacterStatusStateDefinition StatusStateDefinitions[14];
+	FPrimalItemStatDefinition ItemStatDefinitions[8];
+	FPrimalItemDefinition ItemTypeDefinitions[9];
+	FPrimalEquipmentDefinition EquipmentTypeDefinitions[9];
+	TArray<TSubclassOf<UPrimalItem>, FDefaultAllocator> MasterItemList;
+	TArray<FPrimalItemQuality, FDefaultAllocator> ItemQualityDefinitions;
+	TArray<TSubclassOf<UPrimalEngramEntry>, FDefaultAllocator> EngramBlueprintClasses;
+	TArray<TSubclassOf<UPrimalEngramEntry>, FDefaultAllocator> AdditionalEngramBlueprintClasses;
+	TArray<TSubclassOf<UPrimalEngramEntry>, FDefaultAllocator> RemoveEngramBlueprintClasses;
+	TArray<FStatusValueModifierDescription, FDefaultAllocator> StatusValueModifierDescriptions;
+	TArray<FString, FDefaultAllocator> PlayerSpawnRegions;
+	USoundBase *TutorialDisplaySound;
+	USoundBase *Sound_StartItemDrag;
+	USoundBase *Sound_StopItemDrag;
+	USoundBase *Sound_CancelPlacingStructure;
+	USoundBase *Sound_ChooseStructureRotation;
+	USoundBase *Sound_FailPlacingStructure;
+	USoundBase *Sound_ConfirmPlacingStructure;
+	USoundBase *Sound_StartPlacingStructure;
+	USoundBase *Sound_CorpseDecompose;
+	USoundBase *Sound_ApplyLevelUp;
+	USoundBase *Sound_ApplyLevelPoint;
+	USoundBase *Sound_LearnedEngram;
+	USoundBase *Sound_ReconnectToCharacter;
+	USoundBase *Sound_DropAllItems;
+	USoundBase *Sound_TransferAllItemsToRemote;
+	USoundBase *Sound_TransferAllItemsFromRemote;
+	USoundBase *Sound_TransferItemToRemote;
+	USoundBase *Sound_TransferItemFromRemote;
+	USoundBase *Sound_AddItemToSlot;
+	USoundBase *Sound_RemoveItemFromSlot;
+	USoundBase *Sound_ClearCraftQueue;
+	USoundBase *Sound_AddToCraftQueue;
+	USoundBase *Sound_SetRadioFrequency;
+	USoundBase *Sound_AddPinToMap;
+	USoundBase *Sound_RemovePinFromMap;
+	USoundBase *Sound_ApplyDye;
+	USoundBase *Sound_ApplyPaint;
+	USoundBase *Sound_SetTextGeneric;
+	USoundBase *Sound_SplitItemStack;
+	USoundBase *Sound_MergeItemStack;
+	USoundBase *Sound_InputPinDigit;
+	USoundBase *Sound_PinValidated;
+	USoundBase *Sound_PinRejected;
+	USoundBase *Sound_TribeWarBegin;
+	USoundBase *Sound_TribeWarEnd;
+	USoundBase *Sound_DropInventoryItem;
+	USoundBase *Sound_RefillWaterContainer;
+	TArray<FAppIDItem, FDefaultAllocator> CoreAppIDItems;
+	TArray<FAppIDItem, FDefaultAllocator> AppIDItems;
+	TArray<UPrimalEngramEntry *, FDefaultAllocator> EngramBlueprintEntries;
+	TArray<UPrimalDinoEntry *, FDefaultAllocator> DinoEntriesObjects;
+	TArray<UGenericDataListEntry *, FDefaultAllocator> ExplorerNoteEntriesObjects;
+	TArray<UGenericDataListEntry *, FDefaultAllocator> HeadHairStylesEntriesObjects;
+	TArray<UGenericDataListEntry *, FDefaultAllocator> FacialHairStylesEntriesObjects;
+	TSubclassOf<UToolTipWidget> DefaultToolTipWidget;
+	TSubclassOf<UPrimalItem> StarterNoteItem;
+	TArray<TSubclassOf<UPrimalItem>, FDefaultAllocator> PrimaryResources;
+	TSubclassOf<ADroppedItem> GenericDroppedItemTemplate;
+	UMaterialInterface *PostProcess_KnockoutBlur;
+	TArray<UMaterialInterface *, FDefaultAllocator> BuffPostProcessEffects;
+	TArray<UMaterialInterface *, FDefaultAllocator> AdditionalBuffPostProcessEffects;
+	TSubclassOf<ADroppedItemLowQuality> GenericDroppedItemTemplateLowQuality;
+	TArray<FTutorialDefinition, FDefaultAllocator> TutorialDefinitions;
+	UTexture2D *UnknownIcon;
+	UMaterialInterface *UnknownMaterial;
+	UTexture2D *WhiteTexture;
+	UTexture2D *BlueprintBackground;
+	UTexture2D *BabyCuddleIcon;
+	UTexture2D *ImprintedRiderIcon;
+	UTexture2D *WeaponAccessoryActivatedIcon;
+	UTexture2D *EngramBackground;
+	UTexture2D *VoiceChatIcon;
+	UTexture2D *ItemButtonRecentlySelectedBackground;
+	TArray<TSubclassOf<UPrimalDinoEntry>, FDefaultAllocator> DinoEntries;
+	TArray<TSubclassOf<UPrimalDinoEntry>, FDefaultAllocator> AdditionalDinoEntries;
+	float GlobalGeneralArmorDegradationMultiplier;
+	float GlobalSpecificArmorDegradationMultiplier;
+	float GlobalSpecificArmorRatingMultiplier;
+	float GlobalGeneralArmorRatingMultiplier;
+	float EnemyFoundationPreventionRadius;
+	TArray<FColorDefinition, FDefaultAllocator> ColorDefinitions;
+	TArray<UObject *, FDefaultAllocator> ExtraResources;
+	TArray<UObject *, FDefaultAllocator> BaseExtraResources;
+	TSubclassOf<UObject> BaseExtraResourcesContainer;
+	USoundBase *CombatMusicDay;
+	USoundBase *CombatMusicNight;
+	USoundBase *CombatMusicDay_Heavy;
+	USoundBase *CombatMusicNight_Heavy;
+	USoundBase *LevelUpStingerSound;
+	FPlayerCharacterGenderDefinition PlayerCharacterGenderDefinitions[2];
+	TSubclassOf<AGameMode> DefaultGameMode;
+	FLevelExperienceRamp LevelExperienceRamps[4];
+	FLevelExperienceRamp SinglePlayerLevelExperienceRamps[4];
+	TArray<FNamedTeamDefinition, FDefaultAllocator> NamedTeamDefinitions;
+	TArray<int, FDefaultAllocator> PlayerLevelEngramPoints;
+	TArray<int, FDefaultAllocator> PlayerLevelEngramPointsSP;
+	TArray<FString, FDefaultAllocator> PreventBuildStructureReasonStrings;
+	TArray<FClassRemapping, FDefaultAllocator> Remap_NPC;
+	TArray<FClassRemapping, FDefaultAllocator> Remap_SupplyCrates;
+	TArray<FClassRemapping, FDefaultAllocator> Remap_ResourceComponents;
+	TArray<FClassRemapping, FDefaultAllocator> Remap_NPCSpawnEntries;
+	TArray<FClassRemapping, FDefaultAllocator> Remap_Engrams;
+	TArray<FClassRemapping, FDefaultAllocator> Remap_Items;
+	TArray<FClassAddition, FDefaultAllocator> AdditionalStructureEngrams;
+	TArray<FBuffAddition, FDefaultAllocator> AdditionalDefaultBuffs;
+	TSubclassOf<AActor> ActorToSpawnUponEnemyCoreStructureDeath;
+	TArray<TSubclassOf<APrimalStructure>, FDefaultAllocator> AdditionalStructuresToPlace;
+	TArray<TSubclassOf<UPrimalItem_Dye>, FDefaultAllocator> MasterDyeList;
+	TArray<FColor, FDefaultAllocator> MasterColorTable;
+	float EnemyCoreStructureDeathActorRadiusBuildCheck;
+	TSubclassOf<APrimalStructureItemContainer> DeathDestructionDepositInventoryClass;
+	UTexture2D *MateBoostIcon;
+	UTexture2D *EggBoostIcon;
+	UTexture2D *MatingIcon;
+	UTexture2D *NearFeedIcon;
+	UTexture2D *BuffedIcon;
+	UTexture2D *GamepadFaceButtonTop;
+	UTexture2D *GamepadFaceButtonBottom;
+	UTexture2D *GamepadFaceButtonLeft;
+	UTexture2D *GamepadFaceButtonRight;
+	TSubclassOf<UUI_XBoxFooter> FooterTemplate;
+	float TribeXPSharePercent;
+	int OverrideServerPhysXSubsteps;
+	float OverrideServerPhysXSubstepsDeltaTime;
+	bool bInitialized;
+	USoundBase *Sound_TamedDinos[3];
+	USoundBase *Sound_ItemStartCrafting;
+	USoundBase *Sound_ItemFinishCrafting;
+	USoundBase *Sound_ItemStartRepairing;
+	USoundBase *Sound_ItemFinishRepairing;
+	TSubclassOf<UUI_Notification> NotifClass;
+	TSubclassOf<UPrimalStructureToolTipWidget> StructureDefaultOverlayToolTipWidget;
+	TSubclassOf<UPrimalUI> MeleeHitColorizeStructuresUI;
+	float MinPaintDurationConsumption;
+	float MaxPaintDurationConsumption;
+	float MinDinoRadiusForPaintConsumption;
+	float MaxDinoRadiusForPaintConsumption;
+	TArray<FDinoBabySetup, FDefaultAllocator> DinoBabySetups;
+	TArray<FDinoBabySetup, FDefaultAllocator> DinoGestationSetups;
+	TSubclassOf<UPrimalItem> SoapItemTemplate;
+	UTexture2D *NameTagWildcardAdmin;
+	UTexture2D *NameTagServerAdmin;
+	UTexture2D *NameTagTribeAdmin;
+	TArray<UTexture2D *, FDefaultAllocator> BadgeGroupsNameTag;
+	TArray<FString, FDefaultAllocator> AchievementIDs;
+	TSet<FString, DefaultKeyFuncs<FString, 0>, FDefaultSetAllocator> AchievementIDSet;
+	TArray<float, FDefaultAllocator> AdditionalEggWeightsToSpawn;
+	TArray<TSubclassOf<UPrimalItem>, FDefaultAllocator> AdditionalEggItemsToSpawn;
+	TArray<float, FDefaultAllocator> FertilizedAdditionalEggWeightsToSpawn;
+	TArray<TSubclassOf<UPrimalItem>, FDefaultAllocator> FertilizedAdditionalEggItemsToSpawn;
+	FString ItemAchievementsName;
+	TArray<TSubclassOf<UPrimalItem>, FDefaultAllocator> ItemAchievementsList;
+	TArray<TSubclassOf<UPrimalItem>, FDefaultAllocator> GlobalCuddleFoodList;
+	TArray<FMultiAchievement, FDefaultAllocator> MultiAchievements;
+	USoundBase *DinoIncrementedImprintingSound;
+	USoundBase *HitMarkerCharacterSound;
+	USoundBase *HitMarkerStructureSound;
+	UMaterialParameterCollection *FOVScaleMaterialParamCollection;
+	TArray<FNPCSpawnEntriesContainerAdditions, FDefaultAllocator> TheNPCSpawnEntriesContainerAdditions;
+	UMaterialInterface *PostProcess_ColorLUT;
+	TSubclassOf<UPrimalStructureSettings> DefaultStructureSettings;
+	USoundBase *Sound_DossierUnlocked;
+	USoundBase *Sound_ItemUseOnItem;
+	USoundBase *Sound_RemoveItemSkin;
+	USoundBase *Sound_RemoveClipAmmo;
+	TArray<FExplorerNoteEntry, FDefaultAllocator> ExplorerNoteEntries;
+	float ExplorerNoteXPGain;
+	UTexture2D *BuffTypeBackgrounds[3];
+	UTexture2D *BuffTypeForegrounds[3];
+	TSubclassOf<APrimalBuff> ExplorerNoteXPBuff;
+	UTexture2D *PerMapExplorerNoteLockedIcon;
+	UTexture2D *TamedDinoUnlockedIcon;
+	UTexture2D *TamedDinoLockedIcon;
+	TSubclassOf<ATerrainActor> OverrideAutoGenerateTerainActorTemplate;
+	TArray<FUnlockableEmoteEntry, FDefaultAllocator> UnlockableEmotes;
+	TArray<FClassRemappingWeight, FDefaultAllocator> GlobalNPCRandomSpawnClassWeights;
+	UTexture2D *DinoOrderIcon;
+	TSubclassOf<APrimalEmitterSpawnable> DinoOrderEffect_MoveTo;
+	TSubclassOf<APrimalEmitterSpawnable> DinoOrderEffect_AttackTarget;
+	TArray<FObjectCorrelation, FDefaultAllocator> AdditionalHumanMaleAnimSequenceOverrides;
+	TArray<FObjectCorrelation, FDefaultAllocator> AdditionalHumanFemaleAnimSequenceOverrides;
+	TArray<FObjectCorrelation, FDefaultAllocator> AdditionalHumanMaleAnimMontagesOverrides;
+	TArray<FObjectCorrelation, FDefaultAllocator> AdditionalHumanFemaleAnimMontagesOverrides;
+	TArray<FOverrideAnimBlueprintEntry, FDefaultAllocator> AdditionalHumanMaleOverrideAnimBlueprints;
+	TArray<FOverrideAnimBlueprintEntry, FDefaultAllocator> AdditionalHumanFemaleOverrideAnimBlueprints;
+	TArray<TSubclassOf<AActor>, FDefaultAllocator> ServerExtraWorldSingletonActorClasses;
+	bool bForceServerUseDinoList;
+	TArray<TSubclassOf<UPrimalGameData>, FDefaultAllocator> ExtraStackedGameDataClasses;
+	TArray<FHairStyleDefinition, FDefaultAllocator> HeadHairStyleDefinitions;
+	TArray<FHairStyleDefinition, FDefaultAllocator> FacialHairStyleDefinitions;
+	TArray<FHairStyleDefinition, FDefaultAllocator> AdditionalHeadHairStyleDefinitions;
+	TArray<FHairStyleDefinition, FDefaultAllocator> AdditionalFacialHairStyleDefinitions;
+	TSubclassOf<UPrimalItem> ExtraEggItem;
+	USoundBase *GenericWaterPostprocessAmbientSound;
+	TSubclassOf<UPrimalPlayerData> OverridePlayerDataClass;
+	TArray<FName, FDefaultAllocator> AllDinosAchievementNameTags;
+	USoundBase *GenericArrowPickedUpSound;
+	UTexture2D *UnlockIcon;
+	FColor WheelFolderColor;
+	FColor WheelBackColor;
+	UParticleSystem *CorpseLocatorEffect;
+	UTexture2D *MaxInventoryIcon;
+	UTexture2D *ItemSkinIcon;
+	TArray<TEnumAsByte<enum ECollisionChannel>, FDefaultAllocator> SkeletalPhysCustomBodyAdditionalIgnores;
+	USoundBase *ActionWheelClickSound;
+	USoundBase *Sound_GenericBoardPassenger;
+	USoundBase *Sound_GenericUnboardPassenger;
+	USoundBase *Sound_CraftingTabToggle;
+	TMap<UClass *, UPrimalEngramEntry *, FDefaultSetAllocator, TDefaultMapKeyFuncs<UClass *, UPrimalEngramEntry *, 0> > ItemEngramMap;*/
+};
+
+struct UGameInstance : UObject //, FExec
+{
+	/*FWorldContext *WorldContext;
+	TArray<ULocalPlayer *, FDefaultAllocator> LocalPlayers;
+	FString PIEMapName;*/
+};
+
+
+struct UShooterGameInstance : UGameInstance
+{
+	/*FName CurrentState;
+	bool bCanUseUserGeneratedContent;
+	bool bHasCommunicationPrivilige;
+	TBaseDelegate_ThreeParams<void, FUniqueNetId const &, enum EUserPrivileges::Type, unsigned int> OnGetUserCommunicationPrivilegeCompleteDelegate;
+	FString WelcomeScreenMap;
+	FString MainMenuMap;
+	FName PendingState;
+	FShooterPendingMessage PendingMessage;
+	FShooterPendingInvite PendingInvite;
+	FString TravelURL;
+	bool bIsOnline;
+	bool bPendingEnableSplitscreen;
+	bool bIsLicensed;
+	int IgnorePairingChangeForControllerId;
+	EOnlineServerConnectionStatus::Type CurrentConnectionStatus;
+	TBaseDelegate_RetVal_OneParam<bool, float> TickDelegate;
+	TBaseDelegate_TwoParams<void, FName, bool> OnEndSessionCompleteDelegate;
+	TWeakObjectPtr<AStaticMeshActor, FWeakObjectPtr, FIndexToObject> RagdollKinematicActor;
+	TWeakObjectPtr<ADayCycleManager, FWeakObjectPtr, FIndexToObject> DayCycleManager;
+	TWeakObjectPtr<ASOTFNotification, FWeakObjectPtr, FIndexToObject> SOTFNotificationManager;
+	int bOnReturnToMainMenuNotification;
+	FString OnReturnToMainMenuNotificationMessage;
+	FString OnReturnToMainMenuNotificationTitle;
+	FString GlobalMainMenuMessage;
+	FString GlobalMainMenuTitle;
+	TBaseDelegate_OneParam<void, bool> GlobalMainMenuDialogDelegate;
+	bool bHasReceivedNewsMessage;
+	bool bHasOfficialStatusMessage;
+	FString NewsMessage;
+	FString OfficialStatusMessage;
+	FWindowsCriticalSection TerrainGenerationMutex;
+	FString TerrainGenerationProgressBarMsg;
+	float SecondsSpentGeneratingTerrain;
+	bool TerrainIsGenerating;*/
 };

@@ -1,14 +1,16 @@
-# ARK-Server-Beyond-API
-Server API for creating your own C++ plugins for ARK: Survival Evolved.<br>
+# ARK-Server-Beyond-API (forked by me)
+Server API for creating your own C++ plugins for ARK: Survival Evolved.
+
+This forked version contains modifications needed to support features in plugins I develop.
 
 ## Download
-http://www.beyondmods.rocks/ark/files/file/27-ark-server-beyond-api-alpha/ <br><br>
+https://github.com/tsebring/ARK-Server-Beyond-API/releases
 
-Plugins may be found here: [Plugins](http://www.beyondmods.rocks/ark/files/category/6-ark-survival-evolved/)<br>
-## Creating your own plugins:
-[Tutorial](http://www.beyondmods.rocks/ark/topic/283-guide-creating-your-own-plugins-for-ark-beyond-api/)
+## Official version
+https://github.com/Michidu/ARK-Server-Beyond-API
+
 
 ## Compilation
 Requirements
-* Visual Studio 2015
+* Visual Studio 2017
 * MinHook

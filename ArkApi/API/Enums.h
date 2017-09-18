@@ -244,3 +244,14 @@ enum EFindName
 	*/
 	FNAME_Replace_Not_Safe_For_Threading,
 };
+
+namespace EBabyCuddleType
+{
+	enum Type
+	{
+		Pet,
+		Food,
+		Walk,
+		MAX
+	};
+}
