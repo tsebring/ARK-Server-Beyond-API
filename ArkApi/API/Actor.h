@@ -1899,6 +1899,7 @@ struct ACharacter : public APawn
 
 struct APrimalCharacter : public ACharacter
 {
+	TSubclassOf<APrimalStructureItemContainer> GetDeathDestructionDepositInventoryClassField() const { return GetNativeField<TSubclassOf<APrimalStructureItemContainer>>(this, "APrimalCharacter", "DeathDestructionDepositInventoryClass"); }
 	FVector GetOldLocationField() const { return GetNativeField<FVector>(this, "APrimalCharacter", "OldLocation"); }
 	void SetOldLocationField(FVector newValue) { SetNativeField(this, "APrimalCharacter", "OldLocation", newValue); }
 	FRotator GetOldRotationField() const { return GetNativeField<FRotator>(this, "APrimalCharacter", "OldRotation"); }
@@ -3399,6 +3400,14 @@ struct UPrimalCharacterStatusComponent
 	void RescaleAllStats() { NativeCall<void>((DWORD64)this, "UPrimalCharacterStatusComponent", "RescaleAllStats"); }
 };
 
+struct FDinoBaseLevelWeightEntry
+{
+	float EntryWeight;
+	float BaseLevelMinRange;
+	float BaseLevelMaxRange;
+};
+
+
 // Dino
 
 struct APrimalDinoCharacter : APrimalCharacter
@@ -4175,6 +4184,8 @@ struct APrimalDinoCharacter : APrimalCharacter
 	void SetLastStartedCarryingCharacterTimeField(long double newValue) { SetNativeField(this, "APrimalDinoCharacter", "LastStartedCarryingCharacterTime", newValue); }
 	float GetFlyerAttachedExplosiveSpeedMultiplierField() const { return GetNativeField<float>(this, "APrimalDinoCharacter", "FlyerAttachedExplosiveSpeedMultiplier"); }
 	void SetFlyerAttachedExplosiveSpeedMultiplierField(float newValue) { SetNativeField(this, "APrimalDinoCharacter", "FlyerAttachedExplosiveSpeedMultiplier", newValue); }
+	TArray<FDinoBaseLevelWeightEntry> GetDinoBaseLevelWeightEntriesField() const { return GetNativeField<TArray<FDinoBaseLevelWeightEntry>>(this, "APrimalDinoCharacter", "DinoBaseLevelWeightEntries"); }
+	float GetNPCLerpToMaxRandomBaseLevelField() const { return GetNativeField<float>(this, "APrimalDinoCharacter", "NPCLerpToMaxRandomBaseLevel"); }
 
 	// Functions
 
