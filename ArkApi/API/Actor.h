@@ -5199,3 +5199,45 @@ struct ANPCZoneManager : AInfo {
 	long double LastManuallySpawnedTime;
 	bool bIgnoreNPCRandomClassReplacements;*/
 };
+
+struct ADroppedItem : AActor
+{
+	FItemNetInfo GetMyItemInfoField() const { return GetNativeField<FItemNetInfo>(this, "ADroppedItem", "MyItemInfo"); }
+	void SetMyItemInfoField(FItemNetInfo newValue) { SetNativeField(this, "ADroppedItem", "MyItemInfo", newValue); }
+	UPrimalItem* GetMyItemField() const { return GetNativeField<UPrimalItem*>(this, "ADroppedItem", "MyItem"); }
+	void SetMyItemField(UPrimalItem* newValue) { SetNativeField(this, "ADroppedItem", "MyItem", newValue); }
+	long double GetDroppedItemDestructionTimeField() const { return GetNativeField<long double>(this, "ADroppedItem", "DroppedItemDestructionTime"); }
+	void SetDroppedItemDestructionTimeField(long double newValue) { SetNativeField(this, "ADroppedItem", "DroppedItemDestructionTime", newValue); }
+	FString GetDroppedByNameField() const { return GetNativeField<FString>(this, "ADroppedItem", "DroppedByName"); }
+	void SetDroppedByNameField(FString newValue) { SetNativeField(this, "ADroppedItem", "DroppedByName", newValue); }
+	int GetDroppedByPlayerIDField() const { return GetNativeField<int>(this, "ADroppedItem", "DroppedByPlayerID"); }
+	void SetDroppedByPlayerIDField(int newValue) { SetNativeField(this, "ADroppedItem", "DroppedByPlayerID", newValue); }
+	TWeakObjectPtr<AActor> GetDroppedByActorField() const { return GetNativeField<TWeakObjectPtr<AActor>>(this, "ADroppedItem", "DroppedByActor"); }
+	void SetDroppedByActorField(TWeakObjectPtr<AActor> newValue) { SetNativeField(this, "ADroppedItem", "DroppedByActor", newValue); }
+
+	/*FItemNetInfo MyItemInfo;
+	UPrimalItem *MyItem;
+	unsigned __int32 bApplyImpulseOnSpawn : 1;
+	unsigned __int32 bDestroyOnStasis : 1;
+	unsigned __int32 bUseCollisionTrace : 1;
+	unsigned __int32 bPreventPickup : 1;
+	unsigned __int32 bDestroyOutOfWater : 1;
+	unsigned __int32 bIsUnderwater : 1;
+	float ImpulseMagnitude;
+	float ForceSleepTimer;
+	FVector DroppedItemScale;
+	FVector2D OverlayTooltipPadding;
+	FVector2D OverlayTooltipScale;
+	TSubclassOf<UPrimalItemToolTipWidget> HUDOverlayToolTipWidget;
+	FString DroppedByName;
+	long double DroppedItemDestructionTime;
+	float MaxPickUpDistance;
+	float PrevLinearDamping;
+	float PrevAngularDamping;
+	long double SpawnDropSoundTime;
+	FVector PreviousLocation;
+	TWeakObjectPtr<AActor, FWeakObjectPtr, FIndexToObject> DroppedByActor;*/
+
+	// Functions
+	static UClass* StaticClass() { return NativeCall<UClass *>(nullptr, "ADroppedItem", "StaticClass"); }
+};

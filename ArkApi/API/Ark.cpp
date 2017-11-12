@@ -32,6 +32,11 @@ namespace Ark
 		return Hooks::GetBaseAddress();
 	}
 
+	DWORD64 GetOffset(const std::string& structure, const std::string& offset)
+	{
+		return Hooks::GetOffset(structure, offset);
+	}
+
 	void AddChatCommand(const FString& command, const std::function<void(AShooterPlayerController*, FString*, EChatSendMode::Type)>& callback)
 	{
 		Commands::AddChatCommand(command, callback);

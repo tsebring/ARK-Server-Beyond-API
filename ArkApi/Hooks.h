@@ -1,6 +1,7 @@
 #ifndef H_Hooks
 #define H_Hooks
 
+#include <map>
 #include "API/Ark.h"
 
 namespace Hooks
@@ -22,6 +23,9 @@ namespace Hooks
 	DWORD64 GetAddress(const void* base, const std::string& structure, const std::string& offset);
 	DWORD64 GetAddress(LPVOID base, const std::string& structure, const std::string& offset);
 	LPVOID GetAddress(const std::string& structure, const std::string& offset);
+
+	// Get offset
+	DWORD64 GetOffset(const std::string& structure, const std::string& offset);
 
 	// Get base address
 	DWORD64 GetBaseAddress();

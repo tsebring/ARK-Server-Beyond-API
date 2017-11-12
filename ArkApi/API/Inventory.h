@@ -700,7 +700,7 @@ struct UPrimalItem : UObject
 	void SetSaddleOverrideRiderSocketNameField(FName newValue) { SetNativeField(this, "UPrimalItem", "SaddleOverrideRiderSocketName", newValue); }
 	TSubclassOf<APrimalDinoCharacter> GetEggDinoClassToSpawnField() const { return GetNativeField<TSubclassOf<APrimalDinoCharacter>>(this, "UPrimalItem", "EggDinoClassToSpawn"); }
 	void SetEggDinoClassToSpawnField(TSubclassOf<APrimalDinoCharacter> newValue) { SetNativeField(this, "UPrimalItem", "EggDinoClassToSpawn", newValue); }
-	char* GetEggNumberOfLevelUpPointsAppliedField() const { return GetNativeField<char*>(this, "UPrimalItem", "EggNumberOfLevelUpPointsApplied"); }
+	char* GetEggNumberOfLevelUpPointsAppliedField() const { return GetNativePointerField<char*>(this, "UPrimalItem", "EggNumberOfLevelUpPointsApplied"); }
 	float GetEggTamedIneffectivenessModifierField() const { return GetNativeField<float>(this, "UPrimalItem", "EggTamedIneffectivenessModifier"); }
 	void SetEggTamedIneffectivenessModifierField(float newValue) { SetNativeField(this, "UPrimalItem", "EggTamedIneffectivenessModifier", newValue); }
 	char* GetEggColorSetIndicesField() const { return GetNativeField<char*>(this, "UPrimalItem", "EggColorSetIndices"); }
@@ -986,10 +986,6 @@ struct FItemNetInfo
 	void SetCrafterTribeNameField(FString newValue) { SetNativeField(this, "FItemNetInfo", "CrafterTribeName", newValue); }
 	float GetCraftedSkillBonusField() const { return GetNativeField<float>(this, "FItemNetInfo", "CraftedSkillBonus"); }
 	void SetCraftedSkillBonusField(float newValue) { SetNativeField(this, "FItemNetInfo", "CraftedSkillBonus", newValue); }
-};
-
-struct ADroppedItem
-{
 };
 
 struct FItemCraftQueueEntry

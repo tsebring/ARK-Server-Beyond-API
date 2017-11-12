@@ -17,6 +17,7 @@ namespace Ark
 	ARK_API void DisableHook(const std::string& structure, const std::string& funcName);
 
 	ARK_API DWORD64 GetBaseAddress();
+	ARK_API DWORD64 GetOffset(const std::string& structure, const std::string& offset);
 
 	ARK_API void AddChatCommand(const FString& command, const std::function<void(AShooterPlayerController*, FString*, EChatSendMode::Type)>& callback);
 	ARK_API void RemoveChatCommand(const FString& command);

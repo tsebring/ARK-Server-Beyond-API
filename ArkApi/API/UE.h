@@ -436,6 +436,7 @@ public:
 struct UObjectBase
 {
 public:
+	int GetObjectFlagsField() const { return GetNativeField<int>(this, "UObjectBase", "ObjectFlags"); }
 	int GetInternalIndexField() const { return GetNativeField<int>(this, "UObjectBase", "InternalIndex"); }
 	UClass* GetClassField() const { return GetNativeField<UClass *>(this, "UObjectBase", "Class"); }
 	FName GetNameField() const { return GetNativeField<FName>(this, "UObjectBase", "Name"); }
@@ -549,6 +550,7 @@ public:
 
 	// Functions
 
+	static UClass* StaticClass() { return NativeCall<UClass *>(nullptr, "UClass", "StaticClass"); }
 	UObject* GetDefaultObject(bool bCreateIfNeeded) { return NativeCall<UObject *, bool>((DWORD64)this, "UClass", "GetDefaultObject", bCreateIfNeeded); }
 	void PostInitProperties() { NativeCall<void>((DWORD64)this, "UClass", "PostInitProperties"); }
 	UObject* GetDefaultSubobjectByName(FName ToFind) { return NativeCall<UObject *, FName>((DWORD64)this, "UClass", "GetDefaultSubobjectByName", ToFind); }
@@ -630,11 +632,40 @@ struct UProperty : UField
 struct UNumericProperty : UProperty
 {
 	__int64 GetSignedIntPropertyValue(void const* Data) { return NativeCall<__int64, void const *>((DWORD64)this, "UNumericProperty", "GetSignedIntPropertyValue", Data); }
+	double GetFloatingPointPropertyValue(void const* Data) { return NativeCall<double, void const *>((DWORD64)this, "UNumericProperty", "GetFloatingPointPropertyValue", Data); }
+	unsigned __int64 GetUnsignedIntPropertyValue(void const* Data) { return NativeCall<unsigned __int64, void const *>((DWORD64)this, "UNumericProperty", "GetUnsignedIntPropertyValue", Data); }
 };
+
+struct UBoolProperty : UProperty
+{
+	char GetFieldMaskField() const { return GetNativeField<char>(this, "UBoolProperty", "FieldMask"); }
+	char GetByteOffsetField() const { return GetNativeField<char>(this, "UBoolProperty", "ByteOffset"); }
+
+	//__int64 GetSignedIntPropertyValue(void const* Data) { return NativeCall<__int64, void const *>((DWORD64)this, "UNumericProperty", "GetSignedIntPropertyValue", Data); }
+};
+
+enum EObjectFlags {};
+
+//not using this right now so leave empty
+struct FObjectInstancingGraph
+{
+	/*UObject *SourceRoot;
+	UObject *DestinationRoot;
+	bool bCreatingArchetype;
+	bool bEnableSubobjectInstancing;
+	bool bLoadingObject;
+	TMap<UObject *, UObject *, FDefaultSetAllocator, TDefaultMapKeyFuncs<UObject *, UObject *, 0> > SourceToDestinationMap;*/
+};
+
 
 struct Globals
 {
 	static UObject* StaticLoadObject(UClass* ObjectClass, UObject* InOuter, const wchar_t* InName, const wchar_t* Filename, unsigned int LoadFlags, DWORD64 Sandbox, bool bAllowObjectReconciliation) { return NativeCall<UObject*, UClass *, UObject *, const wchar_t *, const wchar_t *, unsigned int, DWORD64, bool>(nullptr, "Global", "StaticLoadObject", ObjectClass, InOuter, InName, Filename, LoadFlags, Sandbox, bAllowObjectReconciliation); }
+
+	//UObject *__fastcall StaticConstructObject(UClass *InClass, UObject *InOuter, FName InName, EObjectFlags InFlags, UObject *InTemplate, bool bCopyTransientsFromClassDefaults, FObjectInstancingGraph *InInstanceGraph)
+	static UObject* StaticConstructObject(UClass* InClass, UObject* InOuter, FName InName, EObjectFlags InFlags, UObject *InTemplate, bool bCopyTransientsFromClassDefaults, FObjectInstancingGraph *InInstanceGraph) { return NativeCall<UObject*, UClass*, UObject*, FName, EObjectFlags, UObject*, bool, FObjectInstancingGraph*>(nullptr, "Global", "StaticConstructObject", InClass, InOuter, InName, InFlags, InTemplate, bCopyTransientsFromClassDefaults, InInstanceGraph); }
+
+	//UObject *__fastcall StaticFindObjectFastInternal(UClass *ObjectClass, UObject *ObjectPackage, FName ObjectName, bool bExactClass, bool bAnyPackage, EObjectFlags ExcludeFlags)
 
 	template <typename T>
 	static void GetPrivateStaticClassBody(const wchar_t *PackageName, const wchar_t *Name, T **ReturnClass, void(__cdecl *RegisterNativeFunc)());

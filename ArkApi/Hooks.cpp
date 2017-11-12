@@ -21,6 +21,9 @@ namespace Hooks
 		// Module base address
 		DWORD64 dwModuleBase;
 
+		// Cached offsets
+		std::map<std::pair<std::string, std::string>, DWORD64> cachedOffsets;
+
 		// Hooks
 		std::vector<Hook> allHooks;
 
@@ -167,20 +170,62 @@ namespace Hooks
 
 	DWORD64 GetAddress(const void* base, const std::string& structure, const std::string& offset)
 	{
+		// from cache
+		auto key = std::make_pair(structure, offset);
+		auto it = cachedOffsets.find(key);
+		if (it != cachedOffsets.end()) return reinterpret_cast<DWORD64>(base) + it->second;
+
+		// from json
 		auto json = JsonUtils::GetJson();
-		return reinterpret_cast<DWORD64>(base) + static_cast<DWORD64>(json["structures"][structure][offset]);
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		cachedOffsets.insert_or_assign(key, o);
+
+		return reinterpret_cast<DWORD64>(base) + o;
 	}
 
 	DWORD64 GetAddress(LPVOID base, const std::string& structure, const std::string& offset)
 	{
+		// from cache
+		auto key = std::make_pair(structure, offset);
+		auto it = cachedOffsets.find(key);
+		if (it != cachedOffsets.end()) return reinterpret_cast<DWORD64>(base) + it->second;
+
+		// from json
 		auto json = JsonUtils::GetJson();
-		return reinterpret_cast<DWORD64>(base) + static_cast<DWORD64>(json["structures"][structure][offset]);
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		cachedOffsets.insert_or_assign(key, o);
+
+		return reinterpret_cast<DWORD64>(base) + o;
 	}
 
 	LPVOID GetAddress(const std::string& structure, const std::string& offset)
 	{
+		// from cache
+		auto key = std::make_pair(structure, offset);
+		auto it = cachedOffsets.find(key);
+		if (it != cachedOffsets.end()) return reinterpret_cast<LPVOID>(dwModuleBase + it->second);
+
+		// from json
 		auto json = JsonUtils::GetJson();
-		return reinterpret_cast<LPVOID>(dwModuleBase + static_cast<DWORD64>(json["structures"][structure][offset]));
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		cachedOffsets.insert_or_assign(key, o);
+
+		return reinterpret_cast<LPVOID>(dwModuleBase + o);
+	}
+
+	DWORD64 GetOffset(const std::string& structure, const std::string& offset)
+	{
+		// from cache
+		auto key = std::make_pair(structure, offset);
+		auto it = cachedOffsets.find(key);
+		if (it != cachedOffsets.end()) return it->second;
+
+		// from json
+		auto json = JsonUtils::GetJson();
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		cachedOffsets.insert_or_assign(key, o);
+
+		return o;
 	}
 
     // Get base address

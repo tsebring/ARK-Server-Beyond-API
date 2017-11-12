@@ -76,12 +76,17 @@
 	"APrimalWorldSettings",
 	"FConfigCacheIni",
 	"UShooterGameInstance",
-	"FMalloc"
+	"FMalloc",
+	"UBlueprintGeneratedClass",
+	"APrimalStructureItemContainer",
+	"UBoolProperty",
+	"ADroppedItem"
   ],
   "functions": [
     "StaticLoadObject",
     "GetPrivateStaticClassBody<UClass>",
     "RaycastSingle",
-    "GCreateMalloc"
+    "GCreateMalloc",
+    "StaticConstructObject"
   ]
 }
