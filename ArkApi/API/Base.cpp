@@ -16,3 +16,13 @@ LPVOID GetAddress(const std::string& structure, const std::string& offset)
 {
 	return Hooks::GetAddress(structure, offset);
 }
+
+BitField GetBitField(const void* base, const std::string& structure, const std::string& offset)
+{
+	return Hooks::GetBitField(base, structure, offset);
+}
+
+BitField GetBitField(LPVOID base, const std::string& structure, const std::string& offset)
+{
+	return Hooks::GetBitField(base, structure, offset);
+}

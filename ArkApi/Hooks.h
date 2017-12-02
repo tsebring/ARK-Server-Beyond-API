@@ -24,6 +24,10 @@ namespace Hooks
 	DWORD64 GetAddress(LPVOID base, const std::string& structure, const std::string& offset);
 	LPVOID GetAddress(const std::string& structure, const std::string& offset);
 
+	// Bit field helpers
+	BitField GetBitField(const void* base, const std::string& structure, const std::string& offset);
+	BitField GetBitField(LPVOID base, const std::string& structure, const std::string& offset);
+
 	// Get offset
 	DWORD64 GetOffset(const std::string& structure, const std::string& offset);
 

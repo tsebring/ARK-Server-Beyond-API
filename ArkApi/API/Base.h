@@ -108,11 +108,21 @@ struct FItemStatInfo;
 struct FSaddlePassengerSeatDefinition;
 struct APrimalStructureTurret;
 
+struct BitField
+{
+	DWORD64 offset;
+	unsigned int bitPosition;
+	unsigned int numBits;
+	unsigned int length; //in bytes
+};
+
 // Address helpers
 
 ARK_API DWORD64 GetAddress(const void* base, const std::string& structure, const std::string& offset);
 ARK_API DWORD64 GetAddress(LPVOID base, const std::string& structure, const std::string& offset);
 ARK_API LPVOID GetAddress(const std::string& structure, const std::string& offset);
+ARK_API BitField GetBitField(const void* base, const std::string& structure, const std::string& offset);
+ARK_API BitField GetBitField(LPVOID base, const std::string& structure, const std::string& offset);
 
 #include "Enums.h"
 #include "UE.h"

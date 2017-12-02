@@ -34,10 +34,27 @@ RT GetNativePointerField(const void* _this, const std::string& structure, const 
 	return reinterpret_cast<RT>(GetAddress(_this, structure, fieldName));
 }
 
+template <typename RT, typename T>
+RT GetNativeBitField(const void* _this, const std::string& structure, const std::string& fieldName)
+{
+	const auto bf = GetBitField(_this, structure, fieldName);
+	T result = ((*reinterpret_cast<T*>(bf.offset)) >> bf.bitPosition) & ((~0ULL) >> (sizeof(unsigned long long) * 8 - bf.numBits));
+
+	return static_cast<RT>(result);
+}
+
 template <typename T>
 void SetNativeField(LPVOID _this, const std::string& structure, const std::string& fieldName, T newValue)
 {
 	*reinterpret_cast<T*>(GetAddress(_this, structure, fieldName)) = newValue;
+}
+
+template <typename T>
+void SetNativeBitField(LPVOID _this, const std::string& structure, const std::string& fieldName, T newValue)
+{
+	const auto bf = GetBitField(_this, structure, fieldName);
+	const auto mask = ((~0ULL) >> (sizeof(unsigned long long) * 8 - bf.numBits)) << bf.bitPosition;
+	*reinterpret_cast<T*>(bf.offset) = (*reinterpret_cast<T*>(bf.offset) & (~mask)) | ((newValue << bf.bitPosition) & mask);
 }
 
 // Base types
@@ -588,6 +605,7 @@ struct UBlueprint : UBlueprintCore
 
 	// Functions
 
+	static UClass* StaticClass() { return NativeCall<UClass *>(nullptr, "UBlueprint", "StaticClass"); }
 	FString* GetDesc(FString* result) { return NativeCall<FString *, FString *>((DWORD64)this, "UBlueprint", "GetDesc", result); }
 	bool NeedsLoadForClient() { return NativeCall<bool>((DWORD64)this, "UBlueprint", "NeedsLoadForClient"); }
 	bool NeedsLoadForServer() { return NativeCall<bool>((DWORD64)this, "UBlueprint", "NeedsLoadForServer"); }

@@ -23,6 +23,7 @@ namespace Hooks
 
 		// Cached offsets
 		std::map<std::pair<std::string, std::string>, DWORD64> cachedOffsets;
+		std::map<std::pair<std::string, std::string>, BitField> cachedBitFields;
 
 		// Hooks
 		std::vector<Hook> allHooks;
@@ -113,10 +114,17 @@ namespace Hooks
 	{
 		auto json = JsonUtils::GetJson();
 
-		DWORD64 offset = json["structures"][structure].value(funcName, 0);
-		if (!offset)
+		auto def = json["structures"][structure][funcName];
+		if (def.empty())
 		{
 			std::cerr << funcName << " does not exist in " << structure << std::endl;
+			return;
+		}
+
+		DWORD64 offset = def.value("offset", 0);
+		if (!offset)
+		{
+			std::cerr << "Offset not set for " << funcName << " in " << structure << std::endl;
 			return;
 		}
 
@@ -151,10 +159,17 @@ namespace Hooks
 	{
 		auto json = JsonUtils::GetJson();
 
-		DWORD64 offset = json["structures"][structure].value(funcName, 0);
-		if (!offset)
+		nlohmann::json def = json["structures"][structure].value(funcName, nullptr);
+		if (!def)
 		{
 			std::cerr << funcName << " does not exist in " << structure << std::endl;
+			return;
+		}
+
+		DWORD64 offset = def.value("offset", 0);
+		if (!offset)
+		{
+			std::cerr << "Offset not set for " << funcName << " in " << structure << std::endl;
 			return;
 		}
 
@@ -177,7 +192,8 @@ namespace Hooks
 
 		// from json
 		auto json = JsonUtils::GetJson();
-		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]["offset"]);
+
 		cachedOffsets.insert_or_assign(key, o);
 
 		return reinterpret_cast<DWORD64>(base) + o;
@@ -192,7 +208,7 @@ namespace Hooks
 
 		// from json
 		auto json = JsonUtils::GetJson();
-		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]["offset"]);
 		cachedOffsets.insert_or_assign(key, o);
 
 		return reinterpret_cast<DWORD64>(base) + o;
@@ -207,10 +223,54 @@ namespace Hooks
 
 		// from json
 		auto json = JsonUtils::GetJson();
-		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]["offset"]);
 		cachedOffsets.insert_or_assign(key, o);
 
 		return reinterpret_cast<LPVOID>(dwModuleBase + o);
+	}
+
+	inline BitField GetBitFieldInternal(const void* base, const std::string& structure, const std::string& offset)
+	{
+		// from cache
+		BitField r, c;
+		auto key = std::make_pair(structure, offset);
+		auto it = cachedBitFields.find(key);
+		if (it != cachedBitFields.end())
+		{
+			r.offset = reinterpret_cast<DWORD64>(base) + it->second.offset;
+			r.bitPosition = it->second.bitPosition;
+			r.numBits = it->second.numBits;
+			r.length = it->second.length;
+
+			return r;
+		}
+
+		// from json
+		auto json = JsonUtils::GetJson();
+		auto def = json["structures"][structure][offset];
+		c.offset = static_cast<DWORD64>(def["offset"]);
+		c.bitPosition = static_cast<unsigned int>(def["bitposition"]);
+		c.numBits = static_cast<unsigned int>(def["numbits"]);
+		c.length = static_cast<unsigned int>(def["length"]);
+		
+		cachedBitFields.insert_or_assign(key, c);
+
+		r.offset = reinterpret_cast<DWORD64>(base) + c.offset;
+		r.bitPosition = c.bitPosition;
+		r.numBits = c.numBits;
+		r.length = c.length;
+
+		return r;
+	}
+
+	BitField GetBitField(const void* base, const std::string& structure, const std::string& offset)
+	{
+		return GetBitFieldInternal(base, structure, offset);
+	}
+
+	BitField GetBitField(LPVOID base, const std::string& structure, const std::string& offset)
+	{
+		return GetBitFieldInternal(base, structure, offset);
 	}
 
 	DWORD64 GetOffset(const std::string& structure, const std::string& offset)
@@ -222,7 +282,7 @@ namespace Hooks
 
 		// from json
 		auto json = JsonUtils::GetJson();
-		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]);
+		DWORD64 o = static_cast<DWORD64>(json["structures"][structure][offset]["offset"]);
 		cachedOffsets.insert_or_assign(key, o);
 
 		return o;

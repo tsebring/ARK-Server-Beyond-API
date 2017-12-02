@@ -293,7 +293,7 @@ public:
 	float GetInputAxisKeyValue() { return NativeCall<float>((DWORD64)this, "AActor", "GetInputAxisKeyValue"); }
 	FVector* GetInputVectorAxisValue() { return NativeCall<FVector *>((DWORD64)this, "AActor", "GetInputVectorAxisValue"); }
 	bool SetActorLocation(FVector* NewLocation, bool bSweep) { return NativeCall<bool, FVector *, bool>((DWORD64)this, "AActor", "SetActorLocation", NewLocation, bSweep); }
-	bool SetActorRotation() { return NativeCall<bool>((DWORD64)this, "AActor", "SetActorRotation"); }
+	int SetActorRotation(FRotator* NewRotation) { return NativeCall<int, FRotator*>((DWORD64)this, "AActor", "SetActorRotation", NewRotation); }
 	bool SetActorLocationAndRotation() { return NativeCall<bool>((DWORD64)this, "AActor", "SetActorLocationAndRotation"); }
 	void SetActorScale3D(FVector* NewScale3D) { NativeCall<void, FVector *>((DWORD64)this, "AActor", "SetActorScale3D", NewScale3D); }
 	void SetActorRelativeScale3D() { NativeCall<void>((DWORD64)this, "AActor", "SetActorRelativeScale3D"); }
@@ -1895,6 +1895,7 @@ struct ACharacter : public APawn
 	void OnLanded(FHitResult* Hit) { NativeCall<void, FHitResult *>((DWORD64)this, "ACharacter", "OnLanded", Hit); }
 	void OnLaunched() { NativeCall<void>((DWORD64)this, "ACharacter", "OnLaunched"); }
 	void OnWalkingOffLedge() { NativeCall<void>((DWORD64)this, "ACharacter", "OnWalkingOffLedge"); }
+	UObject* GetSkeletalMeshComponent() { return NativeCall<UObject *>((DWORD64)this, "ACharacter", "GetSkeletalMeshComponent"); }
 };
 
 struct APrimalCharacter : public ACharacter
@@ -3355,6 +3356,8 @@ struct UPrimalCharacterStatusComponent
 	void SetbInWeightLockField(bool newValue) { SetNativeField(this, "UPrimalCharacterStatusComponent", "bInWeightLock", newValue); }
 	long double GetLastReplicatedXPTimeField() const { return GetNativeField<long double>(this, "UPrimalCharacterStatusComponent", "LastReplicatedXPTime"); }
 	void SetLastReplicatedXPTimeField(long double newValue) { SetNativeField(this, "UPrimalCharacterStatusComponent", "LastReplicatedXPTime", newValue); }
+	bool GetbInitializedBaseLevelMaxStatusValuesField() const { return GetNativeBitField<bool, unsigned __int32>(this, "UPrimalCharacterStatusComponent", "bInitializedBaseLevelMaxStatusValues"); }
+	void SetbInitializedBaseLevelMaxStatusValuesField(bool newValue) { SetNativeBitField<unsigned __int32>(this, "UPrimalCharacterStatusComponent", "bInitializedBaseLevelMaxStatusValues", newValue); }
 
 	// Functions
 
@@ -4186,6 +4189,10 @@ struct APrimalDinoCharacter : APrimalCharacter
 	void SetFlyerAttachedExplosiveSpeedMultiplierField(float newValue) { SetNativeField(this, "APrimalDinoCharacter", "FlyerAttachedExplosiveSpeedMultiplier", newValue); }
 	TArray<FDinoBaseLevelWeightEntry> GetDinoBaseLevelWeightEntriesField() const { return GetNativeField<TArray<FDinoBaseLevelWeightEntry>>(this, "APrimalDinoCharacter", "DinoBaseLevelWeightEntries"); }
 	float GetNPCLerpToMaxRandomBaseLevelField() const { return GetNativeField<float>(this, "APrimalDinoCharacter", "NPCLerpToMaxRandomBaseLevel"); }
+	bool GetbIgnoreAllWhistlesField() const { return GetNativeBitField<bool, unsigned __int32>(this, "APrimalDinoCharacter", "bIgnoreAllWhistles"); }
+	void SetbIgnoreAllWhistlesField(bool newValue) { SetNativeBitField<unsigned __int32>(this, "APrimalDinoCharacter", "bIgnoreAllWhistles", newValue); }
+	bool GetbIgnoreAllyLookField() const { return GetNativeBitField<bool, unsigned __int32>(this, "APrimalDinoCharacter", "bIgnoreAllyLook"); }
+	void SetbIgnoreAllyLookField(bool newValue) { SetNativeBitField<unsigned __int32>(this, "APrimalDinoCharacter", "bIgnoreAllyLook", newValue); }
 
 	// Functions
 
