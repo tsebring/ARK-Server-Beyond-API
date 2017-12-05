@@ -92,9 +92,17 @@ namespace Commands
 	{
 		bool result = false;
 
+		TArray<FString> Parsed;
+		Cmd->ParseIntoArray(&Parsed, L" ", true);
+
+		if (!Parsed.IsValidIndex(0))
+			return false;
+
+		FString consoleCommand = Parsed[0];
+
 		for (const auto& command : consoleCommands)
 		{
-			if (Cmd->StartsWith(command->command, ESearchCase::IgnoreCase))
+			if (consoleCommand.Compare(command->command, ESearchCase::IgnoreCase) == 0)
 			{
 				command->callback(_APlayerController, Cmd, bWriteToLog);
 
@@ -109,11 +117,17 @@ namespace Commands
 	{
 		bool result = false;
 
-		FString commandName = rconPacket->Body;
+		TArray<FString> Parsed;
+		rconPacket->Body.ParseIntoArray(&Parsed, L" ", true);
+
+		if (!Parsed.IsValidIndex(0))
+			return false;
+
+		FString rconCommand = Parsed[0];
 
 		for (const auto& command : rconCommands)
 		{
-			if (commandName.StartsWith(command->command, ESearchCase::IgnoreCase))
+			if (rconCommand.Compare(command->command, ESearchCase::IgnoreCase) == 0)
 			{
 				command->callback(rconClientConnection, rconPacket, uWorld);
 

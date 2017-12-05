@@ -196,6 +196,15 @@ struct FString : TArray<wchar_t>
 		return Ret;
 	}
 
+	FORCEINLINE int Compare(const FString& Other, ESearchCase::Type SearchCase = ESearchCase::CaseSensitive) const
+	{
+		if (SearchCase == ESearchCase::IgnoreCase)
+			return _wcsnicmp(Num() ? Data : TEXT(""), Num() ? Other.Data : TEXT(""), Other.Num());
+		
+		return wcsncmp(Num() ? Data : TEXT(""), Num() ? Other.Data : TEXT(""), Other.Num());
+	}
+
+	wchar_t* GetData() { return this->Data; }
 	bool Split(FString* InS, FString* LeftS, FString* RightS, ESearchCase::Type SearchCase, ESearchDir::Type SearchDir) const { return NativeCall<bool, FString *, FString *, FString *, ESearchCase::Type, ESearchDir::Type>((DWORD64)this, "FString", "Split", InS, LeftS, RightS, SearchCase, SearchDir); }
 	void TrimToNullTerminator() const { NativeCall<void>((DWORD64)this, "FString", "TrimToNullTerminator"); }
 	int Find(const wchar_t* SubStr, ESearchCase::Type SearchCase, ESearchDir::Type SearchDir, int StartPosition) const { return NativeCall<int, const wchar_t *, ESearchCase::Type, ESearchDir::Type, int>((DWORD64)this, "FString", "Find", SubStr, SearchCase, SearchDir, StartPosition); }
@@ -512,6 +521,7 @@ struct UObject : UObjectBaseUtility
 	void ProcessEvent(UFunction* Function, void* Parms) { NativeCall<void, UFunction *, void *>((DWORD64)this, "UObject", "ProcessEvent", Function, Parms); }
 	void SaveConfig(unsigned __int64 Flags, const wchar_t *InFilename, void *Config) { NativeCall<void, unsigned __int64, const wchar_t*, void*>((DWORD64)this, "UObject", "SaveConfig", Flags, InFilename, Config); }
 	//void __fastcall UObject::SaveConfig(UObject *this, unsigned __int64 Flags, const wchar_t *InFilename, FConfigCacheIni *Config)
+	//bool GetNativePropertyValues(TMap<FString, FString> &out_PropertyValues, unsigned int ExportFlags) { return NativeCall<bool, TMap<FString, FString> &, unsigned int>((DWORD64)this, "UObject", "GetNativePropertyValues", out_PropertyValues, ExportFlags); }
 };
 
 struct UField : UObject
@@ -708,7 +718,7 @@ struct FAssetData
 	FName GroupNames;
 	FName AssetName;
 	FName AssetClass;
-	char unk[50];// TMap<FName, FString<FName, FString> > TagsAndValues;
+	char unk[80];// TMap<FName, FString<FName, FString> > TagsAndValues;
 	TArray<int> ChunkIDs;
 
 	// Functions

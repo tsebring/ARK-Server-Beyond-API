@@ -115,7 +115,7 @@ public:
 
 // Actor
 
-struct AActor : public UObjectBaseUtility
+struct AActor : public UObject
 {
 public:
 	float GetCustomTimeDilationField() const { return GetNativeField<float>(this, "AActor", "CustomTimeDilation"); }
@@ -1308,6 +1308,9 @@ struct AShooterPlayerController : APlayerController
 	void SetLastRequestedPlaceStructureTimeField(long double newValue) { SetNativeField(this, "AShooterPlayerController", "LastRequestedPlaceStructureTime", newValue); }
 	int GetPersonalDinoTameCountField() const { return GetNativeField<int>(this, "AShooterPlayerController", "PersonalDinoTameCount"); }
 	void SetPersonalDinoTameCountField(int newValue) { SetNativeField(this, "AShooterPlayerController", "PersonalDinoTameCount", newValue); }
+	bool GetbIsAdminPauseUIEnabledField() const { return GetNativeBitField<bool, unsigned __int32>(this, "AShooterPlayerController", "bIsAdminPauseUIEnabled"); }
+	void SetbIsAdminPauseUIEnabledField(bool newValue) { SetNativeBitField<unsigned __int32>(this, "AShooterPlayerController", "bIsAdminPauseUIEnabled", newValue); }
+	
 
 	// Functions
 
@@ -5247,4 +5250,11 @@ struct ADroppedItem : AActor
 
 	// Functions
 	static UClass* StaticClass() { return NativeCall<UClass *>(nullptr, "ADroppedItem", "StaticClass"); }
+};
+
+struct AMatineeActor : AActor
+{
+	//void __fastcall AMatineeActor::Play(AMatineeActor *this, float OverrideSetPosition, bool bOverridePositionJump)
+	void Play(float OverrideSetPosition, bool bOverridePositionJump) { NativeCall<void, float, bool>((DWORD64)this, "AMatineeActor", "Play", OverrideSetPosition, bOverridePositionJump); };
+	void Stop() { NativeCall<void>((DWORD64)this, "AMatineeActor", "Stop"); };
 };

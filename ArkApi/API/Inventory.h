@@ -1030,6 +1030,7 @@ struct FLevelExperienceRamp
 struct UPrimalGameData : UObject
 {
 	FLevelExperienceRamp* GetLevelExperienceRampsField() const { return GetNativePointerField<FLevelExperienceRamp*>(this, "UPrimalGameData", "LevelExperienceRamps"); }
+	TArray<UTexture2D *> GetBadgeGroupsNameTagField() const { return GetNativeField<TArray<UTexture2D *>>(this, "UPrimalGameData", "BadgeGroupsNameTag"); }
 	//FLevelExperienceRamp LevelExperienceRamps[4];
 
 	/*FString ModName;
