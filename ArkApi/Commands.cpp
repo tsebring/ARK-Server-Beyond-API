@@ -91,15 +91,21 @@ namespace Commands
 	{
 		bool result = false;
 
+		TArray<FString> Parsed;
+		Cmd->ParseIntoArray(&Parsed, L" ", true);
+
+		if (!Parsed.IsValidIndex(0))
+			return false;
+
+		FString consoleCommand = Parsed[0];
+
 		for (const auto& command : consoleCommands)
 		{
-
-			if (Cmd->StartsWith(command->command, ESearchCase::IgnoreCase))
+			if (consoleCommand.ToString() == command->command.ToString())
 			{
 				command->callback(_APlayerController, Cmd, bWriteToLog);
 				result = true;
 			}
-
 		}
 
 		return result;
