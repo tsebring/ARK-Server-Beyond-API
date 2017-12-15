@@ -77,10 +77,9 @@ namespace Commands
 
 		for (const auto& command : chatCommands)
 		{
-			if (chatCommand.EndsWith(&command->command, ESearchCase::IgnoreCase))
-			{
+			
+			if (chatCommand.ToString() == command->command.ToString()) {
 				command->callback(_AShooterPlayerController, Message, Mode);
-
 				result = true;
 			}
 		}
@@ -102,10 +101,9 @@ namespace Commands
 
 		for (const auto& command : consoleCommands)
 		{
-			if (consoleCommand.Compare(command->command, ESearchCase::IgnoreCase) == 0)
+			if (consoleCommand.ToString() == command->command.ToString())
 			{
 				command->callback(_APlayerController, Cmd, bWriteToLog);
-
 				result = true;
 			}
 		}
@@ -116,21 +114,16 @@ namespace Commands
 	bool CheckRconCommands(RCONClientConnection* rconClientConnection, RCONPacket* rconPacket, UWorld* uWorld)
 	{
 		bool result = false;
-
 		TArray<FString> Parsed;
 		rconPacket->Body.ParseIntoArray(&Parsed, L" ", true);
 
 		if (!Parsed.IsValidIndex(0))
 			return false;
-
-		FString rconCommand = Parsed[0];
-
+		FString commandName = Parsed[0];
 		for (const auto& command : rconCommands)
 		{
-			if (rconCommand.Compare(command->command, ESearchCase::IgnoreCase) == 0)
-			{
+			if (commandName.ToString() == command->command.ToString()) {
 				command->callback(rconClientConnection, rconPacket, uWorld);
-
 				result = true;
 			}
 		}
