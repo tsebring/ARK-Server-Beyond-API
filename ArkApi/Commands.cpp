@@ -77,7 +77,7 @@ namespace Commands
 
 		for (const auto& command : chatCommands)
 		{
-			if (chatCommand.EndsWith(&command->command, ESearchCase::IgnoreCase))
+			if (chatCommand.Compare(command->command, ESearchCase::IgnoreCase) == 0)
 			{
 				command->callback(_AShooterPlayerController, Message, Mode);
 
