@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "JsonUtils.h"
 #include <fstream>
+#include <iostream>
 
 namespace JsonUtils
 {

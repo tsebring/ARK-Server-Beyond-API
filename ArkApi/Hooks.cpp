@@ -4,6 +4,7 @@
 #include "ApiUtils.h"
 #include "JsonUtils.h"
 #include "Commands.h"
+#include <iostream>
 
 namespace Hooks
 {
@@ -159,7 +160,7 @@ namespace Hooks
 	{
 		auto json = JsonUtils::GetJson();
 
-		nlohmann::json def = json["structures"][structure].value(funcName, nullptr);
+		nlohmann::json def = json["structures"][structure][funcName];
 		if (!def)
 		{
 			std::cerr << funcName << " does not exist in " << structure << std::endl;
